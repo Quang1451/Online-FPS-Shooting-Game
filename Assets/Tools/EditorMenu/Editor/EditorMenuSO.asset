@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3259910cb69c494bb756d89ddc93d5b, type: 3}
+  m_Name: EditorMenuSO
+  m_EditorClassIdentifier: 
+  menus:
+  - scenePath: Assets/Scenes/AppLaucher.unity
+    menuPath: Mimiland/Launcher
+    tip: Open Scene Launcher
+    firstScene: 1
+    subMenu: 1
+    shortCut: '&#1'
+  - scenePath: Assets/Scenes/MainMenu.unity
+    menuPath: Mimiland/World Map 1
+    tip: Mimiland/World Map 21
+    firstScene: 0
+    subMenu: 2
+    shortCut: '&#2'
+  - scenePath: Assets/Scenes/Gameplay.unity
+    menuPath: Mimiland/World Map 2
+    tip: Open World Map 2
+    firstScene: 0
+    subMenu: 3
+    shortCut: '&#3'
+  startSceneMenu: Template/Run &#R
