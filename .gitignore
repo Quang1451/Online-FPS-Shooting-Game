@@ -1,3 +1,9 @@
 ﻿Library
 Logs
 UserSettings
+.vs
+obj
+*.vsconfig
+Assembly-CSharp.csproj
+*.csproj
+*.sln
