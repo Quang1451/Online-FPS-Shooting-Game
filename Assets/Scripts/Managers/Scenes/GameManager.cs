@@ -15,7 +15,6 @@ public enum CharacterType
 public class GameManager : Singleton<GameManager>
 {
     [SerializeField] private AssetReference character;
-    public CinemachineFreeLook cinemachineFreeLook;
     public Camera mainCamera;
     public Transform aimingPos;
 

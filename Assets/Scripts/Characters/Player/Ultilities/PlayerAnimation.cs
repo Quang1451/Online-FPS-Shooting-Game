@@ -10,10 +10,10 @@ public class PlayerAnimation : AnimationController
     public string MoveX = "MoveX";
     public string MoveY = "MoveY";
 
-    public void UpdateMoveDirection(Vector2 direction)
+    public void UpdateMoveDirection(Vector2 direction, float dampTime = 0.1f)
     {
-        animator.SetFloat(MoveX, direction.x);
-        animator.SetFloat(MoveY, direction.y);
+        animator.SetFloat(MoveX, direction.x, dampTime, Time.deltaTime);
+        animator.SetFloat(MoveY, direction.y, dampTime, Time.deltaTime);
     }
 
     public void SetArm()

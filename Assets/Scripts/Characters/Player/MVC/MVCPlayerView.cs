@@ -1,4 +1,6 @@
+using Cinemachine;
 using Sirenix.OdinInspector;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,10 +10,11 @@ using UnityEngine.AddressableAssets;
 public class MVCPlayerView : BaseView
 {
     public Transform cameraLookAt;
-    public PlayerAnimation playerAnimation;
-    public PlayerController playerController;
     public PlayerCapsuleColliderUtility colliderUtility;
-    
+    public CharacterLookRotation lookRotation;
+
+    public Rigidbody Rigidbody { get; private set;}
+
     private void OnValidate()
     {
         colliderUtility.Initialize(gameObject);
@@ -23,15 +26,13 @@ public class MVCPlayerView : BaseView
         colliderUtility.Initialize(gameObject);
         colliderUtility.CaculateCapsuleColliderDimesions();
 
-        SetCamera();
-        playerAnimation.SetArm();
+        Rigidbody = GetComponent<Rigidbody>();
+
+        lookRotation.SetInputProvider(GetComponent<CinemachineInputProvider>());
+        lookRotation.HideCursor();
     }
 
-    private void SetCamera()
-    {
-        GameManager.Instance.cinemachineFreeLook.Follow = transform;
-        GameManager.Instance.cinemachineFreeLook.LookAt = cameraLookAt;
-    }
+    
     public override void SpawnModel(System.Action action)
     {
         action?.Invoke();
@@ -54,4 +55,41 @@ public class MVCPlayerView : BaseView
         ChangCapsuleColliderData(ColliderDataType.Crouch);
     }
 
+    public void Rotate()
+    {
+        lookRotation.horizontalAxis.Update(Time.deltaTime);
+        lookRotation.verticalAxis.Update(Time.deltaTime);
+                
+        cameraLookAt.eulerAngles = new Vector3(lookRotation.verticalAxis.Value, lookRotation.horizontalAxis.Value, 0f);
+
+        float yawCamera = GameManager.Instance.mainCamera.transform.rotation.eulerAngles.y;
+
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0f, yawCamera, 0f), 30 * Time.deltaTime);
+    }
+
+}
+
+[Serializable]
+public class CharacterLookRotation
+{
+    public AxisState horizontalAxis;
+    public AxisState verticalAxis;
+
+    public void SetInputProvider(CinemachineInputProvider inputProvider)
+    {
+        horizontalAxis.SetInputAxisProvider(0, inputProvider);
+        verticalAxis.SetInputAxisProvider(1, inputProvider);
+    }
+
+    public void HideCursor()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
+    public void ShowCursor()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
 }

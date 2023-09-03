@@ -4,15 +4,25 @@ using UnityEngine;
 
 public class MVCPlayerController : BaseController
 {
-    private IController _controller;
+    public MVCPlayerModel model => (MVCPlayerModel)_data;
+    public MVCPlayerView view => (MVCPlayerView)_view;
 
+
+    public PlayerMovementStateMachine movementStateMachine;
+    public PlayerAnimation animation;
+    
     public override void Initialize()
     {
         base.Initialize();
-
         _view.SpawnModel(OnLoadModelComplete);
         _data.ApplyDesign();
-        _controller = _view.GetComponent<PlayerController>();
+
+        movementStateMachine = new PlayerMovementStateMachine(this);
+        movementStateMachine.ChangeState(movementStateMachine.StandingState);
+
+        animation = _view.GetComponent<PlayerAnimation>();
+
+        animation.SetArm();
     }
 
     private void OnLoadModelComplete()
@@ -21,11 +31,14 @@ public class MVCPlayerController : BaseController
 
     public override void Update()
     {
-        _controller?.DoUpdate();
+        movementStateMachine.Update();
+        movementStateMachine.HandleInput();
+
+        view.Rotate();
     }
 
     public override void FixedUpdate()
     {
-        _controller?.DoFixedUpdate();
+        movementStateMachine.PhysicsUpdate();
     }
 }
