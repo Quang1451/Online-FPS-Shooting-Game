@@ -1,3 +1,4 @@
+using Cinemachine;
 using Sirenix.OdinInspector;
 using System;
 using System.Collections;
@@ -13,13 +14,19 @@ public enum CharacterType
 
 public class GameManager : Singleton<GameManager>
 {
-    public AssetReference character;
-    
+    [SerializeField] private AssetReference character;
+    public CinemachineFreeLook cinemachineFreeLook;
+    public Camera mainCamera;
+    public Transform aimingPos;
+
     private List<MVCIController> _listCharacter;
 
     public void Initialize()
     {
         _listCharacter = new List<MVCIController>();
+
+        InputManager.Initialize();
+        InputManager.EnableBothActoins();
     }
 
     #region Unity

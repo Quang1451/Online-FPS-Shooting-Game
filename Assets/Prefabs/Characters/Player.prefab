@@ -640,6 +640,37 @@ MonoBehaviour:
       z: 1
     m_MaintainPositionOffset: 0
     m_MaintainRotationOffset: 0
+--- !u!1 &1768452567895609812
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 44567280903712029}
+  m_Layer: 0
+  m_Name: CameraLookAt
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &44567280903712029
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1768452567895609812}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7770530706271385355}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1812706550336276638
 GameObject:
   m_ObjectHideFlags: 0
@@ -1810,7 +1841,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: e3cc99ba9ae407845bf09c8ceae38455, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -2117,8 +2148,9 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5186025929381628146}
+  - {fileID: 44567280903712029}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &6918565241358189421
 Rigidbody:
@@ -2182,6 +2214,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0f00e5141a86417394bab1823cd7c73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraLookAt: {fileID: 44567280903712029}
+  playerAnimation: {fileID: -6921243948617127846}
+  playerController: {fileID: -5931202115796113761}
   colliderUtility:
     <DefaultColliderData>k__BackingField:
       <Height>k__BackingField: 1.8
@@ -2207,6 +2242,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cbde02f97dcd32408fd03190270d760, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerAnimation: {fileID: -6921243948617127846}
 --- !u!114 &-6921243948617127846
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2219,7 +2255,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3343022c7ddc18746bbbf3c7acc10cbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
+  animator: {fileID: 7023503356278738655}
+  _rigBuilder: {fileID: 7553688874660657106}
+  MoveX: MoveX
+  MoveY: MoveY
 --- !u!1 &4480424967954676917
 GameObject:
   m_ObjectHideFlags: 0

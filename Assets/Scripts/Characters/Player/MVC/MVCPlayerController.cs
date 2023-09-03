@@ -4,16 +4,28 @@ using UnityEngine;
 
 public class MVCPlayerController : BaseController
 {
-   public override void Initialize()
-   {
-      base.Initialize();
-      _view.SpawnModel(OnLoadModelComplete);
-      _data.ApplyDesign();
-   }
+    private IController _controller;
 
-   private void OnLoadModelComplete()
-   {
-      //_data.SetPosition(_view.transform.position);
-      
-   }
+    public override void Initialize()
+    {
+        base.Initialize();
+
+        _view.SpawnModel(OnLoadModelComplete);
+        _data.ApplyDesign();
+        _controller = _view.GetComponent<PlayerController>();
+    }
+
+    private void OnLoadModelComplete()
+    {
+    }
+
+    public override void Update()
+    {
+        _controller?.DoUpdate();
+    }
+
+    public override void FixedUpdate()
+    {
+        _controller?.DoFixedUpdate();
+    }
 }

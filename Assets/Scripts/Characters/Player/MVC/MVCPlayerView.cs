@@ -4,10 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
+
 public class MVCPlayerView : BaseView
 {
+    public Transform cameraLookAt;
+    public PlayerAnimation playerAnimation;
+    public PlayerController playerController;
     public PlayerCapsuleColliderUtility colliderUtility;
-
+    
     private void OnValidate()
     {
         colliderUtility.Initialize(gameObject);
@@ -18,8 +22,16 @@ public class MVCPlayerView : BaseView
     {
         colliderUtility.Initialize(gameObject);
         colliderUtility.CaculateCapsuleColliderDimesions();
+
+        SetCamera();
+        playerAnimation.SetArm();
     }
 
+    private void SetCamera()
+    {
+        GameManager.Instance.cinemachineFreeLook.Follow = transform;
+        GameManager.Instance.cinemachineFreeLook.LookAt = cameraLookAt;
+    }
     public override void SpawnModel(System.Action action)
     {
         action?.Invoke();
@@ -41,4 +53,5 @@ public class MVCPlayerView : BaseView
     {
         ChangCapsuleColliderData(ColliderDataType.Crouch);
     }
+
 }
