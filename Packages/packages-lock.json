@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.mirror.steamworks.net": {
+      "version": "https://github.com/Chykary/FizzySteamworks.git?path=/com.mirror.steamworks.net",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "f586cc33037326c47c79f388de0bfb762b10e6f8"
+    },
     "com.unity.addressables": {
       "version": "1.21.15",
       "depth": 0,
@@ -103,7 +110,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.inputsystem": {
-      "version": "1.5.1",
+      "version": "1.6.1",
       "depth": 0,
       "source": "registry",
       "dependencies": {
