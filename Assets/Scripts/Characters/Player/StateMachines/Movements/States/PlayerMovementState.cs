@@ -6,10 +6,12 @@ using UnityEngine;
 public class PlayerMovementState : IState
 {
     protected PlayerMovementStateMachine stateMachine;
+    protected PlayerGroundedData groundedData;
 
     public PlayerMovementState(PlayerMovementStateMachine playerMovementStateMachine)
     {
         stateMachine = playerMovementStateMachine;
+        groundedData = stateMachine.PlayerController.model.playerSO.GroundedData;
     }
 
     #region State Methods
@@ -90,7 +92,7 @@ public class PlayerMovementState : IState
 
     private float GetMovementSpeed()
     {
-        return stateMachine.ReusableData.MovementSpeedModifier;
+        return stateMachine.ReusableData.MovementSpeedModifier * groundedData.BaseSpeed;
     }
 
     protected Vector3 GetMovementDirection()
@@ -105,6 +107,14 @@ public class PlayerMovementState : IState
         Vector3 horizontalVelocity = stateMachine.PlayerController.view.Rigidbody.velocity;
         horizontalVelocity.y = 0;
         return horizontalVelocity;
+    }
+
+    protected Vector3 GetPlayerVerticalVelocity()
+    {
+        Vector3 playerVerticalVelocity = stateMachine.PlayerController.view.Rigidbody.velocity;
+        playerVerticalVelocity.x = 0f;
+        playerVerticalVelocity.z = 0f;
+        return playerVerticalVelocity;
     }
     #endregion
 }

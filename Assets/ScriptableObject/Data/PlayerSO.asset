@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce1c46001039ad748a54693b8648d0a8, type: 3}
+  m_Name: PlayerSO
+  m_EditorClassIdentifier: 
+  <SpeedRotation>k__BackingField: 5
+  <GoundedLayer>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 128
+  <GroundedData>k__BackingField:
+    <BaseSpeed>k__BackingField: 5
+    <StandData>k__BackingField:
+      <MovementSpeedModifier>k__BackingField: 1
+      CameraLookAtHeight: {x: 0, y: 0, z: 0}
+    <CrouchData>k__BackingField:
+      <MovementSpeedModifier>k__BackingField: 0.5
+      CameraLookAtHeight: {x: 0, y: -0.5, z: 0}

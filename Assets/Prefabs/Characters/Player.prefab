@@ -2269,9 +2269,9 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.2
-  m_Height: 1.6542
+  m_Height: 1.413
   m_Direction: 1
-  m_Center: {x: 0, y: 0.9429, z: 0}
+  m_Center: {x: 0, y: 1.0634999, z: 0}
 --- !u!114 &1217539428597134445
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2291,7 +2291,7 @@ MonoBehaviour:
       <CenterY>k__BackingField: 0.87
       <Radius>k__BackingField: 0.2
     <SlopeData>k__BackingField:
-      <StepHeightPercentage>k__BackingField: 0.081
+      <StepHeightPercentage>k__BackingField: 0.215
       <FloatRayDistance>k__BackingField: 2
       <StepReachForce>k__BackingField: 25
     <CrouchColliderData>k__BackingField:
@@ -2351,6 +2351,7 @@ MonoBehaviour:
   _rigBuilder: {fileID: 7553688874660657106}
   MoveX: MoveX
   MoveY: MoveY
+  IsCrouch: IsCrouch
 --- !u!114 &2388217875076675450
 MonoBehaviour:
   m_ObjectHideFlags: 0

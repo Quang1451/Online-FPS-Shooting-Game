@@ -15,30 +15,33 @@ public class MVCPlayerController : BaseController
     {
         base.Initialize();
         _view.SpawnModel(OnLoadModelComplete);
-        _data.ApplyDesign();
-
-        movementStateMachine = new PlayerMovementStateMachine(this);
-        movementStateMachine.ChangeState(movementStateMachine.StandingState);
+        _data.ApplyDesign(OnApplyDesign);
 
         animation = _view.GetComponent<PlayerAnimation>();
-
-        animation.SetArm();
     }
 
     private void OnLoadModelComplete()
     {
     }
 
+    private void OnApplyDesign()
+    {
+        movementStateMachine = new PlayerMovementStateMachine(this);
+        movementStateMachine.ChangeState(movementStateMachine.StandingState);
+        animation.SetArm();
+    }
+
     public override void Update()
     {
-        movementStateMachine.Update();
-        movementStateMachine.HandleInput();
-
-        view.Rotate();
+        movementStateMachine?.Update();
+        movementStateMachine?.HandleInput();
+        
+        if (model.playerSO == null) return;
+        view.Rotate(model.playerSO.SpeedRotation);
     }
 
     public override void FixedUpdate()
     {
-        movementStateMachine.PhysicsUpdate();
+        movementStateMachine?.PhysicsUpdate();
     }
 }

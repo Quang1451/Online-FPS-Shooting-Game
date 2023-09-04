@@ -55,7 +55,7 @@ public class MVCPlayerView : BaseView
         ChangCapsuleColliderData(ColliderDataType.Crouch);
     }
 
-    public void Rotate()
+    public void Rotate(float SpeedRoation)
     {
         lookRotation.horizontalAxis.Update(Time.deltaTime);
         lookRotation.verticalAxis.Update(Time.deltaTime);
@@ -64,7 +64,7 @@ public class MVCPlayerView : BaseView
 
         float yawCamera = GameManager.Instance.mainCamera.transform.rotation.eulerAngles.y;
 
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0f, yawCamera, 0f), 30 * Time.deltaTime);
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0f, yawCamera, 0f), SpeedRoation * Time.deltaTime);
     }
 
 }
