@@ -8,7 +8,7 @@ public class PlayerGroundedState : PlayerMovementState
     private SlopeData slopeData;
     public PlayerGroundedState(PlayerMovementStateMachine playerMovementStateMachine) : base(playerMovementStateMachine)
     {
-        slopeData = stateMachine.PlayerController.view.colliderUtility.SlopeData;
+        slopeData = stateMachine.PlayerMovement.View.colliderUtility.SlopeData;
     }
 
     public override void PhysicsUpdate()
@@ -20,11 +20,11 @@ public class PlayerGroundedState : PlayerMovementState
     #region Main Methods
     private void Float()
     {
-        Vector3 capsuleColliderCenterInWorldSpace = stateMachine.PlayerController.view.colliderUtility.CapsuleColliderData.Collider.bounds.center;
+        Vector3 capsuleColliderCenterInWorldSpace = stateMachine.PlayerMovement.View.colliderUtility.CapsuleColliderData.Collider.bounds.center;
 
         Ray downwardsRayFromCapsuleCenter = new Ray(capsuleColliderCenterInWorldSpace, Vector3.down);
 
-        if (Physics.Raycast(downwardsRayFromCapsuleCenter, out RaycastHit hit, slopeData.FloatRayDistance, stateMachine.PlayerController.model.playerSO.GoundedLayer, QueryTriggerInteraction.Ignore))
+        if (Physics.Raycast(downwardsRayFromCapsuleCenter, out RaycastHit hit, slopeData.FloatRayDistance, stateMachine.PlayerMovement.MovementSO.GoundedLayer, QueryTriggerInteraction.Ignore))
         {
 
             float groundAngle = Vector3.Angle(hit.normal, -downwardsRayFromCapsuleCenter.direction);
@@ -33,7 +33,7 @@ public class PlayerGroundedState : PlayerMovementState
 
             if (slopeSpeedModifier == 0f) return;*/
 
-            float distanceToFloatingPoint = stateMachine.PlayerController.view.colliderUtility.CapsuleColliderData.ColliderCenterInLocalSpace.y * stateMachine.PlayerController.view.transform.localScale.y - hit.distance;
+            float distanceToFloatingPoint = stateMachine.PlayerMovement.View.colliderUtility.CapsuleColliderData.ColliderCenterInLocalSpace.y * stateMachine.PlayerMovement.transform.localScale.y - hit.distance;
 
             if (distanceToFloatingPoint == 0f) return;
 
@@ -41,7 +41,7 @@ public class PlayerGroundedState : PlayerMovementState
 
             Vector3 liftForce = new Vector3(0f, amountToLift, 0f);
 
-            stateMachine.PlayerController.view.Rigidbody.AddForce(liftForce, ForceMode.VelocityChange);
+            stateMachine.PlayerMovement.Rigidbody.AddForce(liftForce, ForceMode.VelocityChange);
         }
     }
 

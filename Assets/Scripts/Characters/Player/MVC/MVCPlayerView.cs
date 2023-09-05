@@ -1,10 +1,7 @@
 using Cinemachine;
 using Sirenix.OdinInspector;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 
 public class MVCPlayerView : BaseView
@@ -32,8 +29,7 @@ public class MVCPlayerView : BaseView
         lookRotation.HideCursor();
     }
 
-    
-    public override void SpawnModel(System.Action action)
+    public override void SpawnModel(Action action)
     {
         action?.Invoke();
     }
@@ -42,6 +38,7 @@ public class MVCPlayerView : BaseView
     {
         colliderUtility.SwithColiiderData(type);
     }
+
 
     [Button]
     public void Stand()

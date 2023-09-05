@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "PlayerSO", menuName = "Data/Character/Player")]
-public class PlayerSO : ScriptableObject
+[CreateAssetMenu(fileName = "PlayerMovementSO", menuName = "Data/Character/Player")]
+public class PlayerMovementSO : ScriptableObject
 {   
     [field: SerializeField] public float SpeedRotation { get; private set; } = 20f;
     [field: SerializeField] public LayerMask GoundedLayer { get; private set; }

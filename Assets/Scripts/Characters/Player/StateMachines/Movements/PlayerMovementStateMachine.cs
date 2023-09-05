@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class PlayerMovementStateMachine : StateMachine
 {
-    public MVCPlayerController PlayerController { get; }
+    public PlayerMovement PlayerMovement { get; }
     public PlayerStateReusubleData ReusableData { get; }
 
     public PlayerStandingState StandingState { get; }
     public PlayerCrouchingState CrouchingState { get; }
-    public PlayerMovementStateMachine(MVCPlayerController playerController)
+    public PlayerMovementStateMachine(PlayerMovement playerMovement)
     {
-        PlayerController = playerController;
-        ReusableData = PlayerController.model.reusubleData;
+        PlayerMovement = playerMovement;
+        ReusableData = PlayerMovement.Data.reusubleData;
 
         StandingState = new PlayerStandingState(this);
         CrouchingState = new PlayerCrouchingState(this);

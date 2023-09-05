@@ -13,9 +13,9 @@ public class PlayerCrouchingState : PlayerGroundedState
     public override void Enter()
     {
         base.Enter();
-        stateMachine.PlayerController.animation.SetCrouch(true);
-        stateMachine.PlayerController.view.Crouch();
-        stateMachine.PlayerController.view.cameraLookAt.DOLocalMove(crouchData.CameraLookAtHeight, 0.2f);
+        stateMachine.PlayerMovement.PlayerAnimation.SetCrouch(true);
+        stateMachine.PlayerMovement.View.Crouch();
+        stateMachine.PlayerMovement.View.cameraLookAt.DOLocalMove(crouchData.CameraLookAtHeight, 0.2f);
 
         stateMachine.ReusableData.MovementSpeedModifier = crouchData.MovementSpeedModifier;
     }

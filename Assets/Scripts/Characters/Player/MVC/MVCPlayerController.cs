@@ -7,17 +7,14 @@ public class MVCPlayerController : BaseController
     public MVCPlayerModel model => (MVCPlayerModel)_data;
     public MVCPlayerView view => (MVCPlayerView)_view;
 
-
-    public PlayerMovementStateMachine movementStateMachine;
     public PlayerAnimation animation;
-    
+    public PlayerMovement movement;
     public override void Initialize()
     {
         base.Initialize();
+
         _view.SpawnModel(OnLoadModelComplete);
         _data.ApplyDesign(OnApplyDesign);
-
-        animation = _view.GetComponent<PlayerAnimation>();
     }
 
     private void OnLoadModelComplete()
@@ -26,22 +23,24 @@ public class MVCPlayerController : BaseController
 
     private void OnApplyDesign()
     {
-        movementStateMachine = new PlayerMovementStateMachine(this);
-        movementStateMachine.ChangeState(movementStateMachine.StandingState);
+        animation = _view.GetComponent<PlayerAnimation>();
+        movement = _view.GetComponent<PlayerMovement>();
+
+        movement.Initalize(new PlayerMovementData
+        {
+            reusubleData = model.reusubleData
+        });
+
         animation.SetArm();
     }
 
     public override void Update()
     {
-        movementStateMachine?.Update();
-        movementStateMachine?.HandleInput();
-        
-        if (model.playerSO == null) return;
-        view.Rotate(model.playerSO.SpeedRotation);
+        movement?.DoUpdate();
     }
 
     public override void FixedUpdate()
     {
-        movementStateMachine?.PhysicsUpdate();
+        movement?.DoPhysicUpdate();
     }
 }

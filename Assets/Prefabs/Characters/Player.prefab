@@ -2196,6 +2196,7 @@ GameObject:
   - component: {fileID: 765965018215313142}
   - component: {fileID: 1217539428597134445}
   - component: {fileID: -6921243948617127846}
+  - component: {fileID: 1061567903413093678}
   - component: {fileID: 2388217875076675450}
   m_Layer: 0
   m_Name: Player
@@ -2320,9 +2321,9 @@ MonoBehaviour:
     verticalAxis:
       Value: 0
       m_SpeedMode: 0
-      m_MaxSpeed: 100
-      m_AccelTime: 0.1
-      m_DecelTime: 0.1
+      m_MaxSpeed: 80
+      m_AccelTime: 0.2
+      m_DecelTime: 0.2
       m_InputAxisName: 
       m_InputAxisValue: 0
       m_InvertInput: 1
@@ -2352,6 +2353,20 @@ MonoBehaviour:
   MoveX: MoveX
   MoveY: MoveY
   IsCrouch: IsCrouch
+--- !u!114 &1061567903413093678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4439598806633848519}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e81142815ec46f43bfce73b367f7064, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <MovementSO>k__BackingField: {fileID: 11400000, guid: 9f15ee3b3ed17734281702cd54564a5b,
+    type: 2}
 --- !u!114 &2388217875076675450
 MonoBehaviour:
   m_ObjectHideFlags: 0

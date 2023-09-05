@@ -11,7 +11,7 @@ public class PlayerMovementState : IState
     public PlayerMovementState(PlayerMovementStateMachine playerMovementStateMachine)
     {
         stateMachine = playerMovementStateMachine;
-        groundedData = stateMachine.PlayerController.model.playerSO.GroundedData;
+        groundedData = stateMachine.PlayerMovement.MovementSO.GroundedData;
     }
 
     #region State Methods
@@ -77,9 +77,9 @@ public class PlayerMovementState : IState
         Vector3 movementDirection = GetMovementDirection();
         float movementSpeed = GetMovementSpeed();
         Vector3 currentHorizontalVelocity = GetPlayerHorizontalVelocity();
-        stateMachine.PlayerController.view.Rigidbody.AddForce(movementDirection * movementSpeed - currentHorizontalVelocity, ForceMode.VelocityChange);
+        stateMachine.PlayerMovement.Rigidbody.AddForce(movementDirection * movementSpeed - currentHorizontalVelocity, ForceMode.VelocityChange);
 
-        stateMachine.PlayerController.animation.UpdateMoveDirection(stateMachine.ReusableData.MovementInput);
+        stateMachine.PlayerMovement.PlayerAnimation.UpdateMoveDirection(stateMachine.ReusableData.MovementInput);
     }    
 
     protected virtual void AddInputActionsCallbacks()
@@ -97,21 +97,21 @@ public class PlayerMovementState : IState
 
     protected Vector3 GetMovementDirection()
     {
-        Vector3 horizontal = stateMachine.ReusableData.MovementInput.x * stateMachine.PlayerController.view.transform.right;
-        Vector3 vertical = stateMachine.ReusableData.MovementInput.y * stateMachine.PlayerController.view.transform.forward;
+        Vector3 horizontal = stateMachine.ReusableData.MovementInput.x * stateMachine.PlayerMovement.transform.right;
+        Vector3 vertical = stateMachine.ReusableData.MovementInput.y * stateMachine.PlayerMovement.transform.forward;
         return horizontal + vertical;
     }
 
     protected Vector3 GetPlayerHorizontalVelocity()
     {
-        Vector3 horizontalVelocity = stateMachine.PlayerController.view.Rigidbody.velocity;
+        Vector3 horizontalVelocity = stateMachine.PlayerMovement.Rigidbody.velocity;
         horizontalVelocity.y = 0;
         return horizontalVelocity;
     }
 
     protected Vector3 GetPlayerVerticalVelocity()
     {
-        Vector3 playerVerticalVelocity = stateMachine.PlayerController.view.Rigidbody.velocity;
+        Vector3 playerVerticalVelocity = stateMachine.PlayerMovement.Rigidbody.velocity;
         playerVerticalVelocity.x = 0f;
         playerVerticalVelocity.z = 0f;
         return playerVerticalVelocity;
