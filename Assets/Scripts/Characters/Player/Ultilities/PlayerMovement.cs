@@ -40,6 +40,16 @@ public class PlayerMovement : MonoBehaviour
     {
         movementStateMachine?.PhysicsUpdate();
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("Enter " + other.name);
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        Debug.Log("Exit " + other.name);
+    }
 }
 
 public class PlayerMovementData: IData

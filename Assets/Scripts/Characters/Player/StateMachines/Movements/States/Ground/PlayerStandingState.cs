@@ -25,10 +25,17 @@ public class PlayerStandingState : PlayerGroundedState
     protected override void AddInputActionsCallbacks()
     {
         InputManager.playerActions.Crouch.started += OnCrouchChange;
+        InputManager.playerActions.Jump.started += OnJumpChange;
     }
 
     protected override void RemoveInputAcionsCallbacks()
     {
         InputManager.playerActions.Crouch.started -= OnCrouchChange;
+        InputManager.playerActions.Jump.started -= OnJumpChange;
+    }
+
+    private void OnJumpChange(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
+    {
+        stateMachine.ChangeState(stateMachine.JumpingState);
     }
 }

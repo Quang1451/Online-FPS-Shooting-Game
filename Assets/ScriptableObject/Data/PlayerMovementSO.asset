@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PlayerMovementSO
   m_EditorClassIdentifier: 
   <SpeedRotation>k__BackingField: 5
-  <GoundedLayer>k__BackingField:
+  <GoundLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 128
   <GroundedData>k__BackingField:
@@ -24,3 +24,8 @@ MonoBehaviour:
     <CrouchData>k__BackingField:
       <MovementSpeedModifier>k__BackingField: 0.5
       CameraLookAtHeight: {x: 0, y: -0.5, z: 0}
+  <AirborneData>k__BackingField:
+    <JumpData>k__BackingField:
+      <IdleJumpForce>k__BackingField: {x: 0, y: 5, z: 0}
+      <MoveJumpForce>k__BackingField: {x: 0.5, y: 4, z: 0.5}
+    <FallData>k__BackingField: {fileID: 0}

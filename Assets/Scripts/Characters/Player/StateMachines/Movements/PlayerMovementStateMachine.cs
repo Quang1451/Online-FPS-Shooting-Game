@@ -9,6 +9,9 @@ public class PlayerMovementStateMachine : StateMachine
 
     public PlayerStandingState StandingState { get; }
     public PlayerCrouchingState CrouchingState { get; }
+    public PlayerJumpingState JumpingState { get; }
+    public PlayerFallingState FallingState { get; }
+
     public PlayerMovementStateMachine(PlayerMovement playerMovement)
     {
         PlayerMovement = playerMovement;
@@ -16,5 +19,8 @@ public class PlayerMovementStateMachine : StateMachine
 
         StandingState = new PlayerStandingState(this);
         CrouchingState = new PlayerCrouchingState(this);
+
+        JumpingState = new PlayerJumpingState(this);
+        FallingState = new PlayerFallingState(this);
     }
 }
