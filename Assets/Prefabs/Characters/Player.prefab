@@ -1952,6 +1952,7 @@ GameObject:
   - component: {fileID: 7023503356278738655}
   - component: {fileID: 5354150552792361139}
   - component: {fileID: 7553688874660657106}
+  - component: {fileID: 8046094245007909705}
   m_Layer: 0
   m_Name: SM_Chr_Teen_Male_01
   m_TagString: Untagged
@@ -2094,6 +2095,18 @@ MonoBehaviour:
   - m_Rig: {fileID: 1404417412502844302}
     m_Active: 1
   m_Effectors: []
+--- !u!114 &8046094245007909705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4114520696194474649}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e535c3c1ad24a04db69f2fd2e3e1110, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4240337726796826867
 GameObject:
   m_ObjectHideFlags: 0
@@ -2436,9 +2449,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 7023503356278738655}
   _rigBuilder: {fileID: 7553688874660657106}
+  Stand: Stand
+  Crouch: Crouch
+  Jump: Jump
+  Fall: Fall
   MoveX: MoveX
   MoveY: MoveY
-  IsCrouch: IsCrouch
 --- !u!114 &1061567903413093678
 MonoBehaviour:
   m_ObjectHideFlags: 0

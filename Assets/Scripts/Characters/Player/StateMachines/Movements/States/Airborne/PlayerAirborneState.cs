@@ -9,4 +9,20 @@ public class PlayerAirborneState : PlayerMovementState
     {
         airborneData = stateMachine.PlayerMovement.MovementSO.AirborneData;
     }
+
+    public override void Enter()
+    {
+        base.Enter();
+        stateMachine.ReusableData.MovementSpeedModifier = 0f;
+    }
+
+    public override void PhysicsUpdate()
+    {
+        
+    }
+
+    protected override void OnContactWithGroundEnter(Collider collider)
+    {
+        stateMachine.ChangeState(stateMachine.StandingState);
+    }
 }

@@ -24,7 +24,7 @@ public class PlayerGroundedState : PlayerMovementState
 
         Ray downwardsRayFromCapsuleCenter = new Ray(capsuleColliderCenterInWorldSpace, Vector3.down);
 
-        if (Physics.Raycast(downwardsRayFromCapsuleCenter, out RaycastHit hit, slopeData.FloatRayDistance, stateMachine.PlayerMovement.MovementSO.GoundLayer, QueryTriggerInteraction.Ignore))
+        if (Physics.Raycast(downwardsRayFromCapsuleCenter, out RaycastHit hit, slopeData.FloatRayDistance, stateMachine.PlayerMovement.MovementSO.GroundLayer, QueryTriggerInteraction.Ignore))
         {
 
             float groundAngle = Vector3.Angle(hit.normal, -downwardsRayFromCapsuleCenter.direction);
@@ -56,7 +56,9 @@ public class PlayerGroundedState : PlayerMovementState
 
         return slopeSpeedModifier;
     }*/
+    #endregion
 
+    #region Callback Methods
     protected void OnCrouchChange(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
     {
         switch (ctx.phase)
@@ -70,6 +72,25 @@ public class PlayerGroundedState : PlayerMovementState
                 stateMachine.ChangeState(stateMachine.StandingState);
                 break;
         }
+    }
+
+    protected override void OnContactWithGroundExit(Collider collider)
+    {
+        base.OnContactWithGroundExit(collider);
+
+        Vector3 capsuleColliderCenterInWorldSpace = stateMachine.PlayerMovement.View.colliderUtility.CapsuleColliderData.Collider.bounds.center;
+
+        Ray downwardsRayFromCapsuleBottom = new Ray(capsuleColliderCenterInWorldSpace - stateMachine.PlayerMovement.View.colliderUtility.CapsuleColliderData.ColliderVerticalExtents, Vector3.down);
+
+        if (!Physics.Raycast(downwardsRayFromCapsuleBottom, out _, groundedData.GroundToFallRayDistance, stateMachine.PlayerMovement.MovementSO.GroundLayer, QueryTriggerInteraction.Ignore))
+        {
+            OnFall();
+        }
+    }
+
+    protected virtual void OnFall()
+    {
+        stateMachine.ChangeState(stateMachine.FallingState);
     }
     #endregion
 }

@@ -9,4 +9,11 @@ public class PlayerFallingState : PlayerAirborneState
     {
         fallData = airborneData.FallData;
     }
+
+    public override void Enter()
+    {
+        base.Enter();
+        stateMachine.PlayerMovement.PlayerAnimation.CrossFade(stateMachine.PlayerMovement.PlayerAnimation.Fall, 0.1f);
+
+    }
 }

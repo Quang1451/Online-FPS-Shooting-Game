@@ -13,12 +13,24 @@ public class PlayerJumpingState : PlayerAirborneState
     public override void Enter()
     {
         base.Enter();
+        stateMachine.PlayerMovement.PlayerAnimation.CrossFade(stateMachine.PlayerMovement.PlayerAnimation.Jump, 0.1f);
         Jump();
     }
 
+    public override void Update()
+    {
+        base.Update();
+        if(GetPlayerVerticalVelocity().y <0)
+        {
+            stateMachine.ChangeState(stateMachine.FallingState);
+        }
+    }
+
+    
+
     private void Jump()
     {
-        Vector3 jumpForce = Vector3.up;
+        Vector3 jumpForce = Vector3.one;
 
         if (stateMachine.ReusableData.MovementInput == Vector2.zero)
         {
@@ -31,7 +43,6 @@ public class PlayerJumpingState : PlayerAirborneState
 
             jumpForce.Scale(jumpData.MoveJumpForce);
         }
-
         stateMachine.PlayerMovement.Rigidbody.AddForce(jumpForce, ForceMode.Impulse);
     }
 }

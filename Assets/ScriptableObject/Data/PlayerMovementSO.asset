@@ -13,11 +13,12 @@ MonoBehaviour:
   m_Name: PlayerMovementSO
   m_EditorClassIdentifier: 
   <SpeedRotation>k__BackingField: 5
-  <GoundLayer>k__BackingField:
+  <GroundLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 128
   <GroundedData>k__BackingField:
     <BaseSpeed>k__BackingField: 5
+    <GroundToFallRayDistance>k__BackingField: 2
     <StandData>k__BackingField:
       <MovementSpeedModifier>k__BackingField: 1
       CameraLookAtHeight: {x: 0, y: 0, z: 0}
@@ -26,6 +27,7 @@ MonoBehaviour:
       CameraLookAtHeight: {x: 0, y: -0.5, z: 0}
   <AirborneData>k__BackingField:
     <JumpData>k__BackingField:
-      <IdleJumpForce>k__BackingField: {x: 0, y: 5, z: 0}
-      <MoveJumpForce>k__BackingField: {x: 0.5, y: 4, z: 0.5}
-    <FallData>k__BackingField: {fileID: 0}
+      <IdleJumpForce>k__BackingField: {x: 0, y: 6, z: 0}
+      <MoveJumpForce>k__BackingField: {x: 0.3, y: 6, z: 0.3}
+    <FallData>k__BackingField:
+      <MaxFallVelocity>k__BackingField: 10

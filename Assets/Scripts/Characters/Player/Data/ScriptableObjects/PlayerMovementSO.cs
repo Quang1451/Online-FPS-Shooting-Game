@@ -4,8 +4,8 @@ using UnityEngine;
 public class PlayerMovementSO : ScriptableObject
 {   
     [field: SerializeField] public float SpeedRotation { get; private set; } = 20f;
-    [field: SerializeField] public LayerMask GoundLayer { get; private set; }
-
+    [field: SerializeField] public LayerMask GroundLayer { get; private set; }
+    
     [field: Header("Grouded Data:")]
     [field: SerializeField] public PlayerGroundedData GroundedData { get; private set;}
 
@@ -19,7 +19,7 @@ public class PlayerMovementSO : ScriptableObject
 
     public bool IsGroundLayer(int layer)
     {
-        return ContainsLayer(GoundLayer, layer);
+        return ContainsLayer(GroundLayer, layer);
     }
 }
 

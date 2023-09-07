@@ -59,11 +59,25 @@ public class PlayerMovementState : IState
 
     public virtual void OnTriggerEnter(Collider collider)
     {
+        if (stateMachine.PlayerMovement.MovementSO.IsGroundLayer(collider.gameObject.layer))
+        {
+            OnContactWithGroundEnter(collider);
+            return;
+        }
     }
+
+    
 
     public virtual void OnTriggerExit(Collider collider)
     {
+        if (stateMachine.PlayerMovement.MovementSO.IsGroundLayer(collider.gameObject.layer))
+        {
+            OnContactWithGroundExit(collider);
+            return;
+        }
     }
+
+    
     #endregion
 
     #region Main Methods
@@ -115,6 +129,16 @@ public class PlayerMovementState : IState
         playerVerticalVelocity.x = 0f;
         playerVerticalVelocity.z = 0f;
         return playerVerticalVelocity;
+    }
+    #endregion
+
+    #region Callback Methods
+    protected virtual void OnContactWithGroundEnter(Collider collider)
+    {
+    }
+
+    protected virtual void OnContactWithGroundExit(Collider collider)
+    {
     }
     #endregion
 }

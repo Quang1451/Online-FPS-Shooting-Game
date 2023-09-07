@@ -7,18 +7,21 @@ public class PlayerAnimation : AnimationController
 {
     [SerializeField] private RigBuilder _rigBuilder;
 
+    [Header("Animations:")]
+    public string Stand = "Stand";
+    public string Crouch = "Crouch";
+
+    public string Jump = "Jump";
+    public string Fall = "Fall";
+
+    [Header("Paramaters:")]
     public string MoveX = "MoveX";
     public string MoveY = "MoveY";
-    public string IsCrouch = "IsCrouch";
+    
     public void UpdateMoveDirection(Vector2 direction, float dampTime = 0.1f)
     {
         animator.SetFloat(MoveX, direction.x, dampTime, Time.deltaTime);
         animator.SetFloat(MoveY, direction.y, dampTime, Time.deltaTime);
-    }
-
-    public void SetCrouch(bool value = false)
-    {
-        animator.SetBool(IsCrouch, value);
     }
 
     public void SetArm()

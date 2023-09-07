@@ -41,14 +41,19 @@ public class PlayerMovement : MonoBehaviour
         movementStateMachine?.PhysicsUpdate();
     }
 
+    public void OnAnimationExitEvent()
+    {
+        movementStateMachine?.OnAnimationExitEvent();
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Enter " + other.name);
+        movementStateMachine?.OnTriggerEnter(other);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        Debug.Log("Exit " + other.name);
+        movementStateMachine?.OnTriggerExit(other);
     }
 }
 
