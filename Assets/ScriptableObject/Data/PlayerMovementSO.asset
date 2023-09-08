@@ -19,6 +19,7 @@ MonoBehaviour:
   <GroundedData>k__BackingField:
     <BaseSpeed>k__BackingField: 5
     <GroundToFallRayDistance>k__BackingField: 2
+    <GroundToJumpDelayTime>k__BackingField: 0.2
     <StandData>k__BackingField:
       <MovementSpeedModifier>k__BackingField: 1
       CameraLookAtHeight: {x: 0, y: 0, z: 0}

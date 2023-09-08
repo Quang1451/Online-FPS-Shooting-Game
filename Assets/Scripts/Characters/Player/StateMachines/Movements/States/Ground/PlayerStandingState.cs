@@ -37,6 +37,7 @@ public class PlayerStandingState : PlayerGroundedState
 
     private void OnJumpChange(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
     {
+        if (stateMachine.ReusableData.JumpDelayTime > Time.time) return;
         stateMachine.ChangeState(stateMachine.JumpingState);
     }
 }

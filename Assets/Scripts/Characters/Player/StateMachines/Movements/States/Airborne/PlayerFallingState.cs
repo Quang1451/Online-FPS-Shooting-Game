@@ -14,6 +14,14 @@ public class PlayerFallingState : PlayerAirborneState
     {
         base.Enter();
         stateMachine.PlayerMovement.PlayerAnimation.CrossFade(stateMachine.PlayerMovement.PlayerAnimation.Fall, 0.1f);
+    }
 
+    public override void Update()
+    {
+        base.Update();
+        if(GetPlayerVerticalVelocity().y < -fallData.MaxFallVelocity)
+        {
+            stateMachine.PlayerMovement.Rigidbody.velocity = (new Vector3(GetPlayerHorizontalVelocity().x, -fallData.MaxFallVelocity, GetPlayerHorizontalVelocity().z));
+        }
     }
 }

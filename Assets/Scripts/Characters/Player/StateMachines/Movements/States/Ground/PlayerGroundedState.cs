@@ -11,6 +11,12 @@ public class PlayerGroundedState : PlayerMovementState
         slopeData = stateMachine.PlayerMovement.View.colliderUtility.SlopeData;
     }
 
+    public override void Enter()
+    {
+        base.Enter();
+        stateMachine.ReusableData.JumpDelayTime = Time.time + groundedData.GroundToJumpDelayTime;
+    }
+
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();

@@ -6,4 +6,5 @@ public class PlayerStateReusubleData
 {
     public Vector2 MovementInput;
     public float MovementSpeedModifier = 1f;
+    public float JumpDelayTime;
 }
