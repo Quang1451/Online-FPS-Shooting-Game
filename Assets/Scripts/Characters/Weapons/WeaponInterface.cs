@@ -1,0 +1,12 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public interface IWeapon
+{
+    void Initiazlie();
+    void Equip();
+    void Unequip();
+    void AddInputAction();
+    void RemoveInputAction();
+}
