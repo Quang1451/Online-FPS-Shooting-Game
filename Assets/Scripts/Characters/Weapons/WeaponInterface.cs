@@ -10,3 +10,10 @@ public interface IWeapon
     void AddInputAction();
     void RemoveInputAction();
 }
+
+public interface IGun
+{
+    void Shoot();
+    void Reload();
+    void Aim();
+}

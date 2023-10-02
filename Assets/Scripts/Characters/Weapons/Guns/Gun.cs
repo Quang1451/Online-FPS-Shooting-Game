@@ -2,27 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Gun : BaseWeapon
+public class Gun : BaseWeapon, IGun
 {
-    [SerializeField] private WeaponRecoilSO RecoilSO;
-
-    protected virtual void Shoot()
+    public virtual void Aim()
     {
-
     }
 
-    protected virtual void Reload()
+    public virtual void Reload()
     {
-
     }
 
-    protected virtual void Aim()
+    public virtual void Shoot()
     {
-
     }
 
     public override void AddInputAction()
     {
 
     }
+
+    
 }
