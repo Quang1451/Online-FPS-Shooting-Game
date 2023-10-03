@@ -2,23 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(MeshCollider))]
 public class DropItemContainer : MonoBehaviour
 {    
-    public GameObject Object;
+    public IItem Item;
     public ItemType Type;
 
-    private MeshCollider _collider;
-
-    private void Start()
-    {
-        _collider = GetComponent<MeshCollider>();
-    }
-
-    public void SetData(GameObject obj)
+    public void SetData(IItem obj)
     {
         if (obj == null) return;
-        _collider.sharedMesh = obj.GetComponent<MeshFilter>().sharedMesh;
+        Type = obj.GetItemType();
+        obj.SetParent(transform);
+        obj.EnableCollider();
     }
 }
 

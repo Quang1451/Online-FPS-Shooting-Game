@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a1b5d80d7cc86b4493f7f67cf8ddca6, type: 3}
   m_Name: AR2
   m_EditorClassIdentifier: 
-  Animator: {fileID: 0}
+  Animator: {fileID: 22100000, guid: a1f208d3c9490304db5c10164488c14f, type: 2}
   Type: 0
   MaxDamage: 100
   MinDamage: 20.5

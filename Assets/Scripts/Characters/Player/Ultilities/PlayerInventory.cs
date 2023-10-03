@@ -11,12 +11,9 @@ public class PlayerInventory : MonoBehaviour
     [Header("Setting:")]
     [SerializeField] private Transform Transform;
 
-    public void AddGun(GameObject obj)
+    public void AddGun(IItem item)
     {
-        obj.transform.SetParent(Transform);
-        obj.transform.localPosition = Vector3.zero;
-        obj.transform.localEulerAngles = Vector3.zero;
-        obj.transform.localScale = Vector3.one;
+        item.SetParent(Transform);
     }
 
 

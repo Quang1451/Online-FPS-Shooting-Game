@@ -20,6 +20,4 @@ public class Gun : BaseWeapon, IGun
     {
 
     }
-
-    
 }

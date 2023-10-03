@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8956530879365891255}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Target Left Holding
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5865523600214032549}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Target Right Holding
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72,7 +72,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3352493755422488427}
   - component: {fileID: 8835198143473805770}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: BaseGun
   m_TagString: Untagged
   m_Icon: {fileID: 0}

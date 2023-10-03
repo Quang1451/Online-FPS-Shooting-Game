@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a1b5d80d7cc86b4493f7f67cf8ddca6, type: 3}
   m_Name: Pistol2
   m_EditorClassIdentifier: 
-  Animator: {fileID: 0}
+  Animator: {fileID: 22100000, guid: 4fcaf9431c5e9dc4999f1b189c4e5b91, type: 2}
   Type: 1
   MaxDamage: 100
   MinDamage: 20.5

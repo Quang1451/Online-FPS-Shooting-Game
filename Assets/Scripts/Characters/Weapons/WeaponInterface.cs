@@ -17,3 +17,12 @@ public interface IGun
     void Reload();
     void Aim();
 }
+
+public interface IItem
+{
+    void SetParent(Transform parent);
+    ItemType GetItemType();
+
+    void EnableCollider();
+    void DisableCollider();
+}

@@ -59,7 +59,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1111015175407080, guid: 151fe3144103e1440900697f4b29c68e,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8548737682032742130}
   m_SourcePrefab: {fileID: 100100000, guid: 151fe3144103e1440900697f4b29c68e, type: 3}
 --- !u!4 &3283478316840072113 stripped
 Transform:
@@ -67,6 +71,34 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 3287363999595169157}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &3286750685250044013 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1111015175407080, guid: 151fe3144103e1440900697f4b29c68e,
+    type: 3}
+  m_PrefabInstance: {fileID: 3287363999595169157}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &8548737682032742130
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3286750685250044013}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 0
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300000, guid: f39075352f338ed4bab66d58d40f6f53, type: 3}
 --- !u!1001 &8621929270192742788
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -78,7 +110,7 @@ PrefabInstance:
     - target: {fileID: 3352493755422488427, guid: 64d9df107a54bec41b796e50ce7b929d,
         type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3352493755422488427, guid: 64d9df107a54bec41b796e50ce7b929d,
         type: 3}
@@ -133,7 +165,7 @@ PrefabInstance:
     - target: {fileID: 6582599803075237315, guid: 64d9df107a54bec41b796e50ce7b929d,
         type: 3}
       propertyPath: m_Name
-      value: PT_2 Variant
+      value: PT_2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

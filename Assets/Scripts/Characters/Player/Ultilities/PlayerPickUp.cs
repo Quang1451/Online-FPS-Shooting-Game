@@ -32,7 +32,7 @@ public class PlayerPickUp : MonoBehaviour
         if (_pickUpList == null || _pickUpList.Count == 0) return;
         var item = _pickUpList[0];
         
-        _inventory.AddGun(item.GetComponent<DropItemContainer>().Object);
+        _inventory.AddGun(item.GetComponent<DropItemContainer>().Item);
         _pickUpList.Remove(item);
         
         item.SetActive(false);
