@@ -5,8 +5,8 @@ using UnityEngine;
 public class PlayerInventory : MonoBehaviour
 {
     [Header("Weapons:")]
-    [SerializeField] private GameObject MainGun;
-    [SerializeField] private GameObject SubGun;
+    [SerializeField] private IGun MainGun;
+    [SerializeField] private IGun SubGun;
 
     [Header("Setting:")]
     [SerializeField] private Transform Transform;
@@ -14,8 +14,32 @@ public class PlayerInventory : MonoBehaviour
     public void AddGun(IItem item)
     {
         item.SetParent(Transform);
+
+        SwapGun(item, item.GetItemType());
     }
 
+    private void SwapGun(IItem newGun, ItemType type)
+    {
+        IGun oldGun;
+        switch (type)
+        {
+            case ItemType.MainGun:
+                oldGun = MainGun;
+                MainGun = (IGun) newGun;
+                break;
+            default:
+                oldGun = SubGun;
+                SubGun = (IGun) newGun;
+                break;
+        }
+
+        if (oldGun != null)
+        {
+            var dropItem = SpawnManager.SpawnDropItem.GetObject();
+            dropItem.SetData((IItem) oldGun);
+            dropItem.transform.position = transform.position;
+        }
+    }
 
     public bool HasGun(ItemType type)
     {
@@ -29,7 +53,7 @@ public class PlayerInventory : MonoBehaviour
         }
     }
 
-    public GameObject GetGun(ItemType type)
+    public IGun GetGun(ItemType type)
     {
         switch (type)
         {

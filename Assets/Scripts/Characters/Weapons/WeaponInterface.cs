@@ -23,6 +23,5 @@ public interface IItem
     void SetParent(Transform parent);
     ItemType GetItemType();
 
-    void EnableCollider();
-    void DisableCollider();
+    Mesh GetMesh();
 }

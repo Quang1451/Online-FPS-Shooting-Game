@@ -6,13 +6,6 @@ public class BaseWeapon : MonoBehaviour, IWeapon, IItem
 {
     [SerializeField] protected WeaponSO WeaponSO;
 
-    private MeshCollider _mesh;
-
-    private void Awake()
-    {
-        _mesh = GetComponentInChildren<MeshCollider>(true);
-    }
-
     public virtual void Initiazlie()
     {
     }
@@ -49,13 +42,8 @@ public class BaseWeapon : MonoBehaviour, IWeapon, IItem
         transform.localScale = Vector3.one;
     }
 
-    public void EnableCollider()
+    public Mesh GetMesh()
     {
-        _mesh.enabled = true;
-    }
-
-    public void DisableCollider()
-    {
-        _mesh.enabled = false;
+        return GetComponentInChildren<MeshFilter>().sharedMesh;
     }
 }

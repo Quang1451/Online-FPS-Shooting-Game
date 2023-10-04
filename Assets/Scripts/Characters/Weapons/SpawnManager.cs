@@ -9,34 +9,34 @@ public class SpawnManager : MonoBehaviour
 
     [SerializeField] private List<Gun> WeaponPrefabs;
 
-    private SpawnObejct<DropItemContainer> _spawnDropItem;
+    public static SpawnObejct<DropItemContainer> SpawnDropItem;
 
-    private Dictionary<string, Gun> _gunDictionary;
-    private Dictionary<string, SpawnObejct<Gun>> _gunPoolDictionary;
+    public static Dictionary<string, Gun> GunDictionary;
+    public static Dictionary<string, SpawnObejct<Gun>> GunPoolDictionary;
     private void Awake()
     {
-        _spawnDropItem = new SpawnObejct<DropItemContainer>();
-        _spawnDropItem.Initalize(dropItemPrefab);
+        SpawnDropItem = new SpawnObejct<DropItemContainer>();
+        SpawnDropItem.Initalize(dropItemPrefab);
 
-        _gunDictionary = new Dictionary<string, Gun>();
-        _gunPoolDictionary = new Dictionary<string, SpawnObejct<Gun>>();
+        GunDictionary = new Dictionary<string, Gun>();
+        GunPoolDictionary = new Dictionary<string, SpawnObejct<Gun>>();
 
         foreach (Gun gun in WeaponPrefabs)
         {
-            _gunDictionary[gun.name] = gun;
-            _gunPoolDictionary[gun.name] = new SpawnObejct<Gun>();
-            _gunPoolDictionary[gun.name].Initalize(gun);
+            GunDictionary[gun.name] = gun;
+            GunPoolDictionary[gun.name] = new SpawnObejct<Gun>();
+            GunPoolDictionary[gun.name].Initalize(gun);
         }
     }
 
     [Button]
     private void Test(string gunName)
     {
-        if (!_gunPoolDictionary.ContainsKey(gunName) || _gunPoolDictionary == null) return;
+        if (!GunPoolDictionary.ContainsKey(gunName) || GunPoolDictionary == null) return;
 
-        DropItemContainer dropItem = _spawnDropItem.GetObject();
+        DropItemContainer dropItem = SpawnDropItem.GetObject();
 
-        Gun gun = _gunPoolDictionary[gunName].GetObject();
+        Gun gun = GunPoolDictionary[gunName].GetObject();
 
         dropItem.SetData(gun);
     }

@@ -2424,7 +2424,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Layer:
     serializedVersion: 2
-    m_Bits: 2048
+    m_Bits: 1024
 --- !u!114 &3295574789834289296
 MonoBehaviour:
   m_ObjectHideFlags: 0

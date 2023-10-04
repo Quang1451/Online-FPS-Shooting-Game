@@ -7,10 +7,13 @@ using UnityEngine;
 public class PlayerPickUp : MonoBehaviour
 {
     [Header("Pick Up Setting:")]
-    [SerializeField] public LayerMask Layer;
+    [SerializeField] private LayerMask Layer;
+    [SerializeField] private bool AutoPickUp = true;
+
 
     private List<GameObject> _pickUpList;
     private PlayerInventory _inventory;
+
     private void Awake()
     {
         _pickUpList = new List<GameObject>();
@@ -30,21 +33,34 @@ public class PlayerPickUp : MonoBehaviour
     private void PickUpPerformed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
         if (_pickUpList == null || _pickUpList.Count == 0) return;
-        var item = _pickUpList[0];
-        
-        _inventory.AddGun(item.GetComponent<DropItemContainer>().Item);
+
+        PickUpHandle(_pickUpList[0]);
+    }
+
+    private void PickUpHandle(GameObject obj)
+    {
+        var item = obj;
+        var dropItem = item.GetComponent<DropItemContainer>();
+        _inventory.AddGun(dropItem.Item);
+
         _pickUpList.Remove(item);
-        
-        item.SetActive(false);
+
+        SpawnManager.SpawnDropItem.ReleaseObject(dropItem);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (IsPickUpLayer(other.gameObject.layer))
+        GameObject obj = other.gameObject;
+        if (!IsPickUpLayer(obj.layer)) return;
+
+        if (AutoPickUp && !_inventory.HasGun(obj.GetComponent<DropItemContainer>().Type))
         {
-            _pickUpList.Add(other.gameObject);
-            Debug.Log("Pickup " + other.name);
+            PickUpHandle(obj);
+            return;
         }
+
+        _pickUpList.Add(obj);
+        Debug.Log("Pickup " + obj.name);
     }
 
     private void OnTriggerExit(Collider other)
