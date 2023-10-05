@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class Gun : BaseWeapon, IGun
 {
+    [Header("Target Rigging:")]
+    public Transform LeftHolding;
+    public Transform RightHolding;
+
     public virtual void Aim()
     {
     }

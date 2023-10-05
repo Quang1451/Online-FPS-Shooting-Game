@@ -94,7 +94,7 @@ Transform:
   - {fileID: 8956530879365891255}
   - {fileID: 5865523600214032549}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8835198143473805770
 MonoBehaviour:
@@ -109,3 +109,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WeaponSO: {fileID: 11400000, guid: e5f644c3baa4c134084d63a8a9ecac74, type: 2}
+  LeftHolding: {fileID: 8956530879365891255}
+  RightHolding: {fileID: 5865523600214032549}

@@ -46,4 +46,9 @@ public class BaseWeapon : MonoBehaviour, IWeapon, IItem
     {
         return GetComponentInChildren<MeshFilter>().sharedMesh;
     }
+    
+    public AnimatorOverrideController GetAnimation()
+    {
+        return WeaponSO.Animator;
+    }
 }

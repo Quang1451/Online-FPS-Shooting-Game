@@ -135,6 +135,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: SP_2
       objectReference: {fileID: 0}
+    - target: {fileID: 8835198143473805770, guid: 64d9df107a54bec41b796e50ce7b929d,
+        type: 3}
+      propertyPath: WeaponSO
+      value: 
+      objectReference: {fileID: 11400000, guid: eef17af2af93f07419d00c94589f4124,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:

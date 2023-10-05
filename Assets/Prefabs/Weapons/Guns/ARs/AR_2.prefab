@@ -267,6 +267,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WeaponSO: {fileID: 11400000, guid: f6043281d8afc934f91ae6d3bacd9b83, type: 2}
+  LeftHolding: {fileID: 0}
+  RightHolding: {fileID: 0}
 --- !u!1 &7352122833137174434
 GameObject:
   m_ObjectHideFlags: 0
@@ -501,6 +503,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: AR_2
       objectReference: {fileID: 0}
+    - target: {fileID: 8835198143473805770, guid: 64d9df107a54bec41b796e50ce7b929d,
+        type: 3}
+      propertyPath: WeaponSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 17e3d69b86f7a674bb14a6941acaa9d9,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:

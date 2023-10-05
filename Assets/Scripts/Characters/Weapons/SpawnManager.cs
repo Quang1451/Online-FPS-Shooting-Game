@@ -40,4 +40,10 @@ public class SpawnManager : MonoBehaviour
 
         dropItem.SetData(gun);
     }
+
+    public static Gun GetGun(string gunName)
+    {
+        if (!GunPoolDictionary.ContainsKey(gunName) || GunPoolDictionary == null) return null;
+        return GunPoolDictionary[gunName].GetObject();
+    }
 }
