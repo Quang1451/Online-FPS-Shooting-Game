@@ -12,6 +12,8 @@ public class PlayerMovementState : IState
     {
         stateMachine = playerMovementStateMachine;
         groundedData = stateMachine.PlayerMovement.MovementSO.GroundedData;
+
+        InitializeData();
     }
 
     #region State Methods
@@ -66,8 +68,6 @@ public class PlayerMovementState : IState
         }
     }
 
-    
-
     public virtual void OnTriggerExit(Collider collider)
     {
         if (stateMachine.PlayerMovement.MovementSO.IsGroundLayer(collider.gameObject.layer))
@@ -77,24 +77,122 @@ public class PlayerMovementState : IState
         }
     }
 
-    
     #endregion
 
     #region Main Methods
-    private void ReadMovementInput()
+    private void InitializeData()
     {
-        stateMachine.ReusableData.MovementInput = InputManager.playerActions.Move.ReadValue<Vector2>();
+        SetBaseRotationData();
+    }
+
+    protected void SetBaseRotationData()
+    {
+        stateMachine.ReusableData.RotationData = groundedData.BaseRotationData;
+        stateMachine.ReusableData.TimeToReachTargetRotation = groundedData.BaseRotationData.TargetRotationReachTime;
     }
 
     protected virtual void Move()
     {
-        Vector3 movementDirection = GetMovementDirection();
-        float movementSpeed = GetMovementSpeed();
-        Vector3 currentHorizontalVelocity = GetPlayerHorizontalVelocity();
-        stateMachine.PlayerMovement.Rigidbody.AddForce(movementDirection * movementSpeed - currentHorizontalVelocity, ForceMode.VelocityChange);
+        if (stateMachine.ReusableData.MovementInput == Vector2.zero || stateMachine.ReusableData.MovementSpeedModifier == 0f) return;
 
-        stateMachine.PlayerMovement.PlayerAnimation.UpdateMoveDirection(stateMachine.ReusableData.MovementInput);
-    }    
+        Vector3 movementDirection = GetMovementInputDirection();
+
+        float targetRotationYAngle = Rotate(movementDirection);
+
+        Vector3 targetRotationDirection = GetTargetRotationDirection(targetRotationYAngle);
+
+        float movementSpeed = GetMovementSpeed();
+
+        Vector3 currentPlayerHorizontalVelocity = GetPlayerHorizontalVelocity();
+
+        stateMachine.View.Rigidbody.AddForce(targetRotationDirection * movementSpeed - currentPlayerHorizontalVelocity, ForceMode.VelocityChange);
+
+        stateMachine.View.UpdateMoveDirection(stateMachine.ReusableData.MovementInput);
+    }
+
+    protected Vector3 GetPlayerVerticalVelocity()
+    {
+        Vector3 playerVerticalVelocity = stateMachine.View.Rigidbody.velocity;
+        playerVerticalVelocity.x = 0f;
+        playerVerticalVelocity.z = 0f;
+        return playerVerticalVelocity;
+    }
+
+    protected Vector3 GetPlayerHorizontalVelocity()
+    {
+        Vector3 playerHorizontalVelocity = stateMachine.View.Rigidbody.velocity;
+        playerHorizontalVelocity.y = 0f;
+        return playerHorizontalVelocity;
+    }
+
+    private float Rotate(Vector3 direction)
+    {
+        float directionAngle = UpdateTargetRotation(direction);
+        return directionAngle;
+    }
+    protected Vector3 GetMovementInputDirection()
+    {
+        return new Vector3(stateMachine.ReusableData.MovementInput.x, 0f, stateMachine.ReusableData.MovementInput.y);
+    }
+
+    protected float UpdateTargetRotation(Vector3 direction, bool shoulConsiderCameraRoation = true)
+    {
+        float directionAngle = GetDirectionAngle(direction);
+
+        if (shoulConsiderCameraRoation)
+        {
+            directionAngle = AddCameraRotationToAngle(directionAngle);
+        }
+
+        if (directionAngle != stateMachine.ReusableData.CurrentTargetRotation.y)
+        {
+            UpdateTargetRotationData(directionAngle);
+        }
+
+        RotateTowardsTargetRotation();
+        return directionAngle;
+    }
+
+    protected void RotateTowardsTargetRotation()
+    {
+        float currentYAngle = stateMachine.View.transform.eulerAngles.y;
+
+        if (currentYAngle == stateMachine.ReusableData.CurrentTargetRotation.y) return;
+
+        float smoothedYAngle = Mathf.SmoothDampAngle(currentYAngle, stateMachine.ReusableData.CurrentTargetRotation.y, ref stateMachine.ReusableData.DampedTargetRotationCurrentVelocity.y, stateMachine.ReusableData.TimeToReachTargetRotation.y - stateMachine.ReusableData.DampedTargetRotationPassedTime.y);
+
+        stateMachine.ReusableData.DampedTargetRotationPassedTime.y += Time.deltaTime;
+
+        Quaternion targetRotation = Quaternion.Euler(0.0f, smoothedYAngle, 0.0f);
+        stateMachine.View.Rigidbody.MoveRotation(targetRotation);
+    }
+
+    protected float AddCameraRotationToAngle(float angle)
+    {
+        angle += stateMachine.View.MainCameraTransform.eulerAngles.y;
+
+        if (angle > 360f) angle -= 360f;
+        return angle;
+    }
+
+    protected float GetDirectionAngle(Vector3 direction)
+    {
+        float directionAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+
+        if (directionAngle < 0f) directionAngle += 360f;
+        return directionAngle;
+    }
+
+    protected Vector3 GetTargetRotationDirection(float targetAngle)
+    {
+        return Quaternion.Euler(0.0f, targetAngle, 0.0f) * Vector3.forward;
+    }
+
+    protected float GetMovementSpeed()
+    {
+        float movementSpeed = groundedData.BaseSpeed * stateMachine.ReusableData.MovementSpeedModifier;
+        return movementSpeed;
+    }
 
     protected virtual void AddInputActionsCallbacks()
     {
@@ -104,32 +202,28 @@ public class PlayerMovementState : IState
     {
     }
 
-    private float GetMovementSpeed()
+    protected bool IsMovingHorizontally(float minimumMagnitude = 0.1f)
     {
-        return stateMachine.ReusableData.MovementSpeedModifier * groundedData.BaseSpeed;
+        Vector3 playerHorizontalVelocity = GetPlayerHorizontalVelocity();
+        Vector2 playerHorizontalMovement = new Vector2(playerHorizontalVelocity.x, playerHorizontalVelocity.z);
+
+        return playerHorizontalMovement.magnitude > minimumMagnitude;
     }
 
-    protected Vector3 GetMovementDirection()
+    #endregion
+
+    #region Reusable Methods
+    private void ReadMovementInput()
     {
-        Vector3 horizontal = stateMachine.ReusableData.MovementInput.x * stateMachine.PlayerMovement.transform.right;
-        Vector3 vertical = stateMachine.ReusableData.MovementInput.y * stateMachine.PlayerMovement.transform.forward;
-        return horizontal + vertical;
+        stateMachine.ReusableData.MovementInput = InputManager.playerActions.Move.ReadValue<Vector2>();
     }
 
-    protected Vector3 GetPlayerHorizontalVelocity()
+    private void UpdateTargetRotationData(float targetAngle)
     {
-        Vector3 horizontalVelocity = stateMachine.PlayerMovement.Rigidbody.velocity;
-        horizontalVelocity.y = 0;
-        return horizontalVelocity;
+        stateMachine.ReusableData.CurrentTargetRotation.y = targetAngle;
+        stateMachine.ReusableData.DampedTargetRotationPassedTime.y = 0f;
     }
 
-    protected Vector3 GetPlayerVerticalVelocity()
-    {
-        Vector3 playerVerticalVelocity = stateMachine.PlayerMovement.Rigidbody.velocity;
-        playerVerticalVelocity.x = 0f;
-        playerVerticalVelocity.z = 0f;
-        return playerVerticalVelocity;
-    }
     #endregion
 
     #region Callback Methods

@@ -7,31 +7,30 @@ public class MVCPlayerController : BaseController
     public MVCPlayerModel model => (MVCPlayerModel)_data;
     public MVCPlayerView view => (MVCPlayerView)_view;
 
-    public PlayerAnimation animation;
     public PlayerMovement movement;
+    public PlayerInventory inventory;
+
     public override void Initialize()
     {
         base.Initialize();
-
         _view.SpawnModel(OnLoadModelComplete);
-        _data.ApplyDesign(OnApplyDesign);
     }
 
     private void OnLoadModelComplete()
     {
-    }
-
-    private void OnApplyDesign()
-    {
-        animation = _view.GetComponent<PlayerAnimation>();
         movement = _view.GetComponent<PlayerMovement>();
+        inventory = _view.GetComponent<PlayerInventory>();
 
-        movement.Initalize(new PlayerMovementData
+        movement.Initialize(new MovementData
         {
             reusubleData = model.reusubleData
         });
 
-        animation.SetArm();
+        inventory.Initialize(new InventoryData{
+            reusubleData = model.reusubleData
+        });
+
+        inventory.enabled = false;
     }
 
     public override void Update()

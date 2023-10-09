@@ -2,28 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody), typeof(PlayerAnimation), typeof(MVCPlayerView))]
+[RequireComponent(typeof(Rigidbody), typeof(MVCPlayerView))]
 public class PlayerMovement : MonoBehaviour
 {
     [field: SerializeField] public PlayerMovementSO MovementSO { get; private set; }
     public Rigidbody Rigidbody { get; private set; }
-    public PlayerAnimation PlayerAnimation { get; private set; }
     public MVCPlayerView View { get; private set; }
-    public PlayerMovementData Data { get; private set; }
+    public MovementData Data { get; private set; }
 
     private PlayerMovementStateMachine movementStateMachine;
 
     private void Awake()
     {
         Rigidbody = GetComponent<Rigidbody>();
-        PlayerAnimation = GetComponent<PlayerAnimation>();
         View = GetComponent<MVCPlayerView>();
     }
     
-    public void Initalize(IData data = null)
+    public void Initialize(IData data = null)
     {
-        Data = (PlayerMovementData) data;
-
+        Data = (MovementData) data;
         movementStateMachine = new PlayerMovementStateMachine(this);
         movementStateMachine.ChangeState(movementStateMachine.StandingState);
     }
@@ -32,8 +29,6 @@ public class PlayerMovement : MonoBehaviour
     {
         movementStateMachine?.Update();
         movementStateMachine?.HandleInput();
-
-        View.Rotate(MovementSO.SpeedRotation);
     }
 
     public void DoPhysicUpdate()
@@ -55,9 +50,17 @@ public class PlayerMovement : MonoBehaviour
     {
         movementStateMachine?.OnTriggerExit(other);
     }
+
+    private void OnEnable()
+    {
+    }
+
+    private void OnDisable()
+    {   
+    }
 }
 
-public class PlayerMovementData: IData
+public class MovementData: IData
 {
     public PlayerStateReusubleData reusubleData;
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerMovementStateMachine : StateMachine
 {
     public PlayerMovement PlayerMovement { get; }
+    public MVCPlayerView View { get;}
     public PlayerStateReusubleData ReusableData { get; }
 
     public PlayerStandingState StandingState { get; }
@@ -15,6 +16,7 @@ public class PlayerMovementStateMachine : StateMachine
     public PlayerMovementStateMachine(PlayerMovement playerMovement)
     {
         PlayerMovement = playerMovement;
+        View = playerMovement.View;
         ReusableData = PlayerMovement.Data.reusubleData;
 
         StandingState = new PlayerStandingState(this);

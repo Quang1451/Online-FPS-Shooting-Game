@@ -13,7 +13,7 @@ public class PlayerJumpingState : PlayerAirborneState
     public override void Enter()
     {
         base.Enter();
-        stateMachine.PlayerMovement.PlayerAnimation.CrossFade(stateMachine.PlayerMovement.PlayerAnimation.Jump, 0.1f);
+        stateMachine.View.CrossFadeAnimation(stateMachine.View.Jump, 0.1f);
         Jump();
     }
 

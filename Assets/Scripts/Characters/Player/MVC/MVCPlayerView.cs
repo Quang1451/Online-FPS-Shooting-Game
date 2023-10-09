@@ -6,27 +6,41 @@ using UnityEngine;
 
 public class MVCPlayerView : BaseView
 {
-    public Transform cameraLookAt;
+    [Header("Collider Settings:")]
+    [SerializeField] private Transform cameraLookAt;
     public PlayerCapsuleColliderUtility colliderUtility;
-    public CharacterLookRotation lookRotation;
+    [Header("Animation Settings:")]
+    [SerializeField] private Animator Animator;
+    public string Stand = "Stand";
+    public string Crouch = "Crouch";
 
-    public Rigidbody Rigidbody { get; private set;}
+    public string Jump = "Jump";
+    public string Fall = "Fall";
 
-    private void OnValidate()
+    [Header("Paramaters:")]
+    public string MoveX = "MoveX";
+    public string MoveY = "MoveY";
+
+    public Transform MainCameraTransform { get; private set; }
+    public Rigidbody Rigidbody { get; private set; }
+
+    private void Awake()
     {
-        colliderUtility.Initialize(gameObject);
-        colliderUtility.CaculateCapsuleColliderDimesions();
+        MainCameraTransform = Camera.main.gameObject.transform;
+        GameManager.Instance.SetVirtualCamera(transform, cameraLookAt);
     }
 
     public override void Initialize()
     {
         colliderUtility.Initialize(gameObject);
         colliderUtility.CaculateCapsuleColliderDimesions();
-
         Rigidbody = GetComponent<Rigidbody>();
+    }
 
-        lookRotation.SetInputProvider(GetComponent<CinemachineInputProvider>());
-        lookRotation.HideCursor();
+    private void OnValidate()
+    {
+        colliderUtility.Initialize(gameObject);
+        colliderUtility.CaculateCapsuleColliderDimesions();
     }
 
     public override void SpawnModel(Action action)
@@ -40,53 +54,36 @@ public class MVCPlayerView : BaseView
     }
 
 
-    [Button]
-    public void Stand()
+    public void Standing()
     {
         ChangCapsuleColliderData(ColliderDataType.Default);
     }
 
-    [Button]
-    public void Crouch()
+    public void Crouching()
     {
         ChangCapsuleColliderData(ColliderDataType.Crouch);
     }
 
-    public void Rotate(float SpeedRoation)
+    public void CrossFadeAnimation(string animationName, float duration)
     {
-        lookRotation.horizontalAxis.Update(Time.deltaTime);
-        lookRotation.verticalAxis.Update(Time.deltaTime);
-                
-        cameraLookAt.eulerAngles = new Vector3(lookRotation.verticalAxis.Value, lookRotation.horizontalAxis.Value, 0f);
 
-        float yawCamera = GameManager.Instance.mainCamera.transform.rotation.eulerAngles.y;
-
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0f, yawCamera, 0f), SpeedRoation * Time.deltaTime);
     }
 
-}
-
-[Serializable]
-public class CharacterLookRotation
-{
-    public AxisState horizontalAxis;
-    public AxisState verticalAxis;
-
-    public void SetInputProvider(CinemachineInputProvider inputProvider)
+    public void UpdateMoveDirection(Vector2 direction, float dampTime = 0.1f)
     {
-        horizontalAxis.SetInputAxisProvider(0, inputProvider);
-        verticalAxis.SetInputAxisProvider(1, inputProvider);
+        Animator.SetFloat(MoveX, direction.x, dampTime, Time.deltaTime);
+        Animator.SetFloat(MoveY, direction.y, dampTime, Time.deltaTime);
     }
 
-    public void HideCursor()
+    public void SetArm()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-    }
+        /*foreach (MultiAimConstraint aimConstraint in GetComponentsInChildren<MultiAimConstraint>())
+        {
+            var data = aimConstraint.data.sourceObjects;
+            data.SetTransform(0, GameManager.Instance.aimingPos);
+            aimConstraint.data.sourceObjects = data;
+        }
 
-    public void ShowCursor()
-    {
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
+        _rigBuilder.Build();*/
     }
 }

@@ -15,11 +15,9 @@ public class PlayerStandingState : PlayerGroundedState
     public override void Enter()
     {
         base.Enter();
-        stateMachine.PlayerMovement.PlayerAnimation.CrossFade(stateMachine.PlayerMovement.PlayerAnimation.Stand, 0.2f);
+        stateMachine.View.CrossFadeAnimation(stateMachine.View.Stand, 0.2f);
 
-        stateMachine.PlayerMovement.View.Stand();
-        stateMachine.PlayerMovement.View.cameraLookAt.DOLocalMove(standData.CameraLookAtHeight, 0.2f);
-
+        stateMachine.PlayerMovement.View.Standing();
         stateMachine.ReusableData.MovementSpeedModifier = standData.MovementSpeedModifier;
     }
 

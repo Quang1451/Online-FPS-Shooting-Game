@@ -13,11 +13,8 @@ public class PlayerCrouchingState : PlayerGroundedState
     public override void Enter()
     {
         base.Enter();
-        stateMachine.PlayerMovement.PlayerAnimation.CrossFade(stateMachine.PlayerMovement.PlayerAnimation.Crouch, 0.2f);
-
-        stateMachine.PlayerMovement.View.Crouch();
-        stateMachine.PlayerMovement.View.cameraLookAt.DOLocalMove(crouchData.CameraLookAtHeight, 0.2f);
-
+        stateMachine.PlayerMovement.View.CrossFadeAnimation(stateMachine.PlayerMovement.View.Crouch, 0.2f);
+        stateMachine.PlayerMovement.View.Crouching();
         stateMachine.ReusableData.MovementSpeedModifier = crouchData.MovementSpeedModifier;
     }
 

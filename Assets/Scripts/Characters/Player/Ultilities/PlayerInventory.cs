@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerAnimation))]
 public class PlayerInventory : MonoBehaviour
 {
     [Header("Weapons:")]
@@ -15,13 +14,19 @@ public class PlayerInventory : MonoBehaviour
     [Header("Setting:")]
     [SerializeField] private Transform Transform;
 
-    private PlayerAnimation _animation;
+
+    private PlayerStateReusubleData _reusubleData;
+
     private Gun _gunActive;
 
-    private void Awake()
+    public void Initialize(IData data)
     {
-        _animation = GetComponent<PlayerAnimation>();
+        InventoryData inventoryData = (InventoryData)data;
+        _reusubleData = inventoryData.reusubleData;
+    }
 
+    /*private void Awake()
+    {
         ItemType gunType = ItemType.SubGun;
         
         if(DefaultInventory!= null)
@@ -36,7 +41,7 @@ public class PlayerInventory : MonoBehaviour
         
         ActiveGun(gunType);
     }
-
+*/
     private void OnEnable()
     {
         InputManager.playerActions.Button1.started += OnActiveMainGun;
@@ -73,7 +78,7 @@ public class PlayerInventory : MonoBehaviour
             _gunActive = SubGun;
         }
 
-        _animation.animator.runtimeAnimatorController = _gunActive.GetAnimation();
+        /*_animation.animator.runtimeAnimatorController = _gunActive.GetAnimation();*/
     }
 
     private void SwapGun(IItem newGun, ItemType type)
@@ -143,4 +148,9 @@ public class PlayerInventory : MonoBehaviour
             ActiveGun(ItemType.SubGun);
         }
     }
+}
+
+public class InventoryData : IData
+{
+    public PlayerStateReusubleData reusubleData;
 }
