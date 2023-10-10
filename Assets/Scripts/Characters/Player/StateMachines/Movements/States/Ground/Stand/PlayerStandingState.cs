@@ -6,7 +6,8 @@ using UnityEngine;
 
 public class PlayerStandingState : PlayerGroundedState
 {
-    private PlayerStandData standData;
+    protected PlayerStandData standData;
+    private Tween _tween;
     public PlayerStandingState(PlayerMovementStateMachine playerMovementStateMachine) : base(playerMovementStateMachine)
     {
         standData = groundedData.StandData;
@@ -15,21 +16,25 @@ public class PlayerStandingState : PlayerGroundedState
     public override void Enter()
     {
         base.Enter();
-        stateMachine.View.CrossFadeAnimation(stateMachine.View.Stand, 0.2f);
+        stateMachine.View.Standing();
+        _tween = stateMachine.View.SmoothDampAnimatorLayer(stateMachine.View.CrouchLayer, stateMachine.View.Animator.GetLayerWeight(stateMachine.View.CrouchLayer), 0);
+    }
 
-        stateMachine.PlayerMovement.View.Standing();
-        stateMachine.ReusableData.MovementSpeedModifier = standData.MovementSpeedModifier;
+    public override void Exit()
+    {
+        base.Exit();
+        _tween.Kill();
     }
 
     protected override void AddInputActionsCallbacks()
     {
-        InputManager.playerActions.Crouch.started += OnCrouchChange;
+        base.AddInputActionsCallbacks();
         InputManager.playerActions.Jump.started += OnJumpChange;
     }
 
     protected override void RemoveInputAcionsCallbacks()
     {
-        InputManager.playerActions.Crouch.started -= OnCrouchChange;
+        base.RemoveInputAcionsCallbacks();
         InputManager.playerActions.Jump.started -= OnJumpChange;
     }
 

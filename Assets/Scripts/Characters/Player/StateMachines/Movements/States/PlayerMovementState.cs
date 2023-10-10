@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMovementState : IState
 {
@@ -106,8 +107,6 @@ public class PlayerMovementState : IState
         Vector3 currentPlayerHorizontalVelocity = GetPlayerHorizontalVelocity();
 
         stateMachine.View.Rigidbody.AddForce(targetRotationDirection * movementSpeed - currentPlayerHorizontalVelocity, ForceMode.VelocityChange);
-
-        stateMachine.View.UpdateMoveDirection(stateMachine.ReusableData.MovementInput);
     }
 
     protected Vector3 GetPlayerVerticalVelocity()
@@ -196,10 +195,24 @@ public class PlayerMovementState : IState
 
     protected virtual void AddInputActionsCallbacks()
     {
+        InputManager.playerActions.Move.performed += OnMovementPerformed;
+        InputManager.playerActions.Move.canceled += OnMovementCanceled;
     }
 
     protected virtual void RemoveInputAcionsCallbacks()
     {
+        InputManager.playerActions.Move.performed -= OnMovementPerformed;
+        InputManager.playerActions.Move.canceled -= OnMovementCanceled;
+    }
+
+    protected void ResetVelocity()
+    {
+        stateMachine.View.Rigidbody.velocity = Vector3.zero;
+    }
+
+    protected void ResetVelocityHorizontally()
+    {
+        stateMachine.View.Rigidbody.velocity = new Vector3(0f, stateMachine.View.Rigidbody.velocity.y, 0f);
     }
 
     protected bool IsMovingHorizontally(float minimumMagnitude = 0.1f)
@@ -232,6 +245,13 @@ public class PlayerMovementState : IState
     }
 
     protected virtual void OnContactWithGroundExit(Collider collider)
+    {
+    }
+
+    protected virtual void OnMovementPerformed(InputAction.CallbackContext context)
+    {
+    }
+    protected virtual void OnMovementCanceled(InputAction.CallbackContext context)
     {
     }
     #endregion

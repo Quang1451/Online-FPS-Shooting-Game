@@ -1,4 +1,5 @@
 using Cinemachine;
+using DG.Tweening;
 using Sirenix.OdinInspector;
 using System;
 using UnityEngine;
@@ -10,13 +11,16 @@ public class MVCPlayerView : BaseView
     [SerializeField] private Transform cameraLookAt;
     public PlayerCapsuleColliderUtility colliderUtility;
     [Header("Animation Settings:")]
-    [SerializeField] private Animator Animator;
-    public string Stand = "Stand";
-    public string Crouch = "Crouch";
+    public Animator Animator;
+    public string Idle = "Idle";
+    public string Run = "Run";
+    public string Step = "Step";
 
     public string Jump = "Jump";
     public string Fall = "Fall";
 
+    [Header("Layers:")]
+    public int CrouchLayer = 1;
     [Header("Paramaters:")]
     public string MoveX = "MoveX";
     public string MoveY = "MoveY";
@@ -27,7 +31,7 @@ public class MVCPlayerView : BaseView
     private void Awake()
     {
         MainCameraTransform = Camera.main.gameObject.transform;
-        GameManager.Instance.SetVirtualCamera(transform, cameraLookAt);
+        GameManager.Instance.SetVirtualCamera(cameraLookAt, cameraLookAt);
     }
 
     public override void Initialize()
@@ -64,17 +68,6 @@ public class MVCPlayerView : BaseView
         ChangCapsuleColliderData(ColliderDataType.Crouch);
     }
 
-    public void CrossFadeAnimation(string animationName, float duration)
-    {
-
-    }
-
-    public void UpdateMoveDirection(Vector2 direction, float dampTime = 0.1f)
-    {
-        Animator.SetFloat(MoveX, direction.x, dampTime, Time.deltaTime);
-        Animator.SetFloat(MoveY, direction.y, dampTime, Time.deltaTime);
-    }
-
     public void SetArm()
     {
         /*foreach (MultiAimConstraint aimConstraint in GetComponentsInChildren<MultiAimConstraint>())
@@ -85,5 +78,14 @@ public class MVCPlayerView : BaseView
         }
 
         _rigBuilder.Build();*/
+    }
+
+    public Tween SmoothDampAnimatorLayer(int layer, float start, float end, float duration = 0.1f)
+    {
+        return DOTween.To(() => start, x => start = x, end, duration)
+           .SetEase(Ease.Linear).OnUpdate(() =>
+           {
+               Animator.SetLayerWeight(layer, start);
+           });
     }
 }

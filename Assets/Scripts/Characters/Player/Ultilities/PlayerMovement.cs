@@ -22,7 +22,7 @@ public class PlayerMovement : MonoBehaviour
     {
         Data = (MovementData) data;
         movementStateMachine = new PlayerMovementStateMachine(this);
-        movementStateMachine.ChangeState(movementStateMachine.StandingState);
+        movementStateMachine.ChangeState(movementStateMachine.StandIdlingState);
     }
 
     public void DoUpdate()

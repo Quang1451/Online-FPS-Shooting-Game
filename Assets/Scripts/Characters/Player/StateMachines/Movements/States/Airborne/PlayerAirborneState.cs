@@ -22,7 +22,13 @@ public class PlayerAirborneState : PlayerMovementState
     }
 
     protected override void OnContactWithGroundEnter(Collider collider)
-    {
-        stateMachine.ChangeState(stateMachine.StandingState);
+    {   
+        if(stateMachine.ReusableData.MovementInput != Vector2.zero)
+        {
+            stateMachine.ChangeState(stateMachine.StandMovingState);
+            return;
+        }
+
+        stateMachine.ChangeState(stateMachine.StandIdlingState);
     }
 }

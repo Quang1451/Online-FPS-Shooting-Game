@@ -46,4 +46,6 @@ public class PlayerStateReusubleData
     }
 
     public PlayerRotationData RotationData { get; set; }
+
+    public bool IsCrouching;
 }

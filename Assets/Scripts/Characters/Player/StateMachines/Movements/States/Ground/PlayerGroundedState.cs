@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -32,12 +33,7 @@ public class PlayerGroundedState : PlayerMovementState
 
         if (Physics.Raycast(downwardsRayFromCapsuleCenter, out RaycastHit hit, slopeData.FloatRayDistance, stateMachine.PlayerMovement.MovementSO.GroundLayer, QueryTriggerInteraction.Ignore))
         {
-
             float groundAngle = Vector3.Angle(hit.normal, -downwardsRayFromCapsuleCenter.direction);
-
-            /*float slopeSpeedModifier = SetSlopeSpeedModifiedOnAngle(groundAngle);
-
-            if (slopeSpeedModifier == 0f) return;*/
 
             float distanceToFloatingPoint = stateMachine.PlayerMovement.View.colliderUtility.CapsuleColliderData.ColliderCenterInLocalSpace.y * stateMachine.PlayerMovement.transform.localScale.y - hit.distance;
 
@@ -50,34 +46,30 @@ public class PlayerGroundedState : PlayerMovementState
             stateMachine.PlayerMovement.Rigidbody.AddForce(liftForce, ForceMode.VelocityChange);
         }
     }
-
-    /*private float SetSlopeSpeedModifiedOnAngle(float angle)
-    {
-        float slopeSpeedModifier = groundedData.SlopeSpeedAngles.Evaluate(angle);
-
-        if (stateMachine.ReusableData.MovementOnSlopesSpeedModifier != slopeSpeedModifier)
-        {
-            stateMachine.ReusableData.MovementOnSlopesSpeedModifier = slopeSpeedModifier;
-        }
-
-        return slopeSpeedModifier;
-    }*/
     #endregion
 
-    #region Callback Methods
-    protected void OnCrouchChange(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
+    protected override void AddInputActionsCallbacks()
     {
-        switch (ctx.phase)
-        {
-            case InputActionPhase.Performed:
-                break;
-            case InputActionPhase.Started:
-                stateMachine.ChangeState(stateMachine.CrouchingState);
-                break;
-            case InputActionPhase.Canceled:
-                stateMachine.ChangeState(stateMachine.StandingState);
-                break;
-        }
+        base.AddInputActionsCallbacks();
+        InputManager.playerActions.Crouch.started += OnCrouchStarted;
+        InputManager.playerActions.Crouch.canceled += OnCrouchCancled;
+    }
+
+    protected override void RemoveInputAcionsCallbacks()
+    {
+        base.RemoveInputAcionsCallbacks();
+    }
+
+    #region Callback Methods
+  
+    protected virtual void OnCrouchStarted(InputAction.CallbackContext obj)
+    {
+        stateMachine.ReusableData.IsCrouching = true;
+    }
+
+    protected virtual void OnCrouchCancled(InputAction.CallbackContext obj)
+    {
+        stateMachine.ReusableData.IsCrouching = false;
     }
 
     protected override void OnContactWithGroundExit(Collider collider)
