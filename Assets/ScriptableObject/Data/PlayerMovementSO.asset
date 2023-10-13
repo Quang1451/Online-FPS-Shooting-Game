@@ -18,7 +18,7 @@ MonoBehaviour:
   <GroundedData>k__BackingField:
     <BaseSpeed>k__BackingField: 5
     <BaseRotationData>k__BackingField:
-      TargetRotationReachTime: {x: 0, y: 0.1, z: 0}
+      TargetRotationReachTime: {x: 0.1, y: 0.1, z: 0}
     <GroundToFallRayDistance>k__BackingField: 2
     <GroundToJumpDelayTime>k__BackingField: 0.2
     <StandData>k__BackingField:

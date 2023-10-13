@@ -14,7 +14,9 @@ public enum CharacterType
 public class GameManager : Singleton<GameManager>
 {
     [SerializeField] private AssetReference characterAsset;
-    [SerializeField] private CinemachineVirtualCamera VCamera;
+    [SerializeField] private CinemachineVirtualCamera VirtualCamera;
+
+    [SerializeField] private CinemachineVirtualCamera VirtualCameraAim;
 
     private List<MVCIController> _listCharacter;
 
@@ -75,6 +77,11 @@ public class GameManager : Singleton<GameManager>
     #endregion
 
 
+    public CinemachinePOV GetCinemachinePOV()
+    {
+        return VirtualCamera.GetCinemachineComponent<CinemachinePOV>();
+    }
+
     //Test
     [Button]
     private void CreatePlayer()
@@ -84,8 +91,11 @@ public class GameManager : Singleton<GameManager>
 
     public void SetVirtualCamera(Transform follow, Transform lookAt)
     {
-        VCamera.Follow = follow;
-        VCamera.LookAt = lookAt;
+        VirtualCamera.Follow = follow;
+        VirtualCamera.LookAt = lookAt;
+
+        VirtualCameraAim.Follow = follow;
+        VirtualCameraAim.LookAt = lookAt;
     }
 }
 

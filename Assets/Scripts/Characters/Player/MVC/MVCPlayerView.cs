@@ -8,7 +8,7 @@ using UnityEngine;
 public class MVCPlayerView : BaseView
 {
     [Header("Collider Settings:")]
-    [SerializeField] private Transform cameraLookAt;
+    public Transform cameraLookAt;
     public PlayerCapsuleColliderUtility colliderUtility;
     [Header("Animation Settings:")]
     public Animator Animator;

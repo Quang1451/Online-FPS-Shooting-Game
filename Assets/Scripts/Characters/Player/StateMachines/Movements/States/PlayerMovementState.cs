@@ -3,16 +3,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
+using Cinemachine;
 public class PlayerMovementState : IState
 {
     protected PlayerMovementStateMachine stateMachine;
     protected PlayerGroundedData groundedData;
+    private AxisState horizontalAxisState;
+    private AxisState verticalAxisState;
 
     public PlayerMovementState(PlayerMovementStateMachine playerMovementStateMachine)
     {
         stateMachine = playerMovementStateMachine;
         groundedData = stateMachine.PlayerMovement.MovementSO.GroundedData;
+        var cinemachinePOV = GameManager.Instance.GetCinemachinePOV();
+
+        horizontalAxisState = cinemachinePOV.m_HorizontalAxis;
+        verticalAxisState = cinemachinePOV.m_VerticalAxis;
 
         InitializeData();
     }
@@ -33,10 +39,16 @@ public class PlayerMovementState : IState
     public virtual void HandleInput()
     {
         ReadMovementInput();
+        ReadLookInput();
     }
 
     public virtual void PhysicsUpdate()
     {
+        //Rotation when Aiming
+        if(stateMachine.ReusableData.IsAiming)
+        {
+            AimRotation();
+        }
         Move();
     }
 
@@ -92,14 +104,39 @@ public class PlayerMovementState : IState
         stateMachine.ReusableData.TimeToReachTargetRotation = groundedData.BaseRotationData.TargetRotationReachTime;
     }
 
+    protected virtual void AimRotation()
+    {
+        if (stateMachine.ReusableData.LookInput != Vector2.zero)
+        {
+            float horizontalAxis = stateMachine.ReusableData.LookInput.x;
+            float verticalAxis = stateMachine.ReusableData.LookInput.y;
+            
+            //Horizontal rotation data
+            UpdateTargetRotationData(stateMachine.ReusableData.CurrentTargetRotation.y + horizontalAxis);
+            //Vertical rotation data
+            UpdateVerticalAmingData(stateMachine.ReusableData.CurrentTargetRotation.x - verticalAxis, verticalAxisState.m_MinValue, verticalAxisState.m_MaxValue);
+        }
+        RotateTowardsTargetRotation();
+        VerticalAimingRotation();
+    }
+
     protected virtual void Move()
     {
         if (stateMachine.ReusableData.MovementInput == Vector2.zero || stateMachine.ReusableData.MovementSpeedModifier == 0f) return;
 
         Vector3 movementDirection = GetMovementInputDirection();
 
-        float targetRotationYAngle = Rotate(movementDirection);
+        float targetRotationYAngle;
 
+        if (stateMachine.ReusableData.IsAiming)
+        {
+            targetRotationYAngle = GetTargetRotation(movementDirection);
+        }
+        else
+        {
+            targetRotationYAngle = Rotate(movementDirection);
+        }
+        
         Vector3 targetRotationDirection = GetTargetRotationDirection(targetRotationYAngle);
 
         float movementSpeed = GetMovementSpeed();
@@ -152,6 +189,17 @@ public class PlayerMovementState : IState
         return directionAngle;
     }
 
+    protected float GetTargetRotation(Vector3 direction, bool shoulConsiderCameraRoation = true)
+    {
+        float directionAngle = GetDirectionAngle(direction);
+
+        if (shoulConsiderCameraRoation)
+        {
+            directionAngle = AddCameraRotationToAngle(directionAngle);
+        }
+        return directionAngle;
+    }
+
     protected void RotateTowardsTargetRotation()
     {
         float currentYAngle = stateMachine.View.transform.eulerAngles.y;
@@ -164,6 +212,20 @@ public class PlayerMovementState : IState
 
         Quaternion targetRotation = Quaternion.Euler(0.0f, smoothedYAngle, 0.0f);
         stateMachine.View.Rigidbody.MoveRotation(targetRotation);
+    }
+
+    protected void VerticalAimingRotation()
+    {
+        float currentXAngle = stateMachine.View.cameraLookAt.transform.eulerAngles.x;
+
+        if (currentXAngle == stateMachine.ReusableData.CurrentTargetRotation.x) return;
+
+        float smoothedXAngle = Mathf.SmoothDampAngle(currentXAngle, stateMachine.ReusableData.CurrentTargetRotation.x, ref stateMachine.ReusableData.DampedTargetRotationCurrentVelocity.x, stateMachine.ReusableData.TimeToReachTargetRotation.x - stateMachine.ReusableData.DampedTargetRotationPassedTime.x);
+
+        stateMachine.ReusableData.DampedTargetRotationPassedTime.x += Time.deltaTime;
+
+        Quaternion targetRotation = Quaternion.Euler(smoothedXAngle, 0.0f, 0.0f);
+        stateMachine.View.cameraLookAt.transform.localRotation = targetRotation;
     }
 
     protected float AddCameraRotationToAngle(float angle)
@@ -231,10 +293,21 @@ public class PlayerMovementState : IState
         stateMachine.ReusableData.MovementInput = InputManager.playerActions.Move.ReadValue<Vector2>();
     }
 
+    private void ReadLookInput()
+    {
+        stateMachine.ReusableData.LookInput = InputManager.playerActions.Look.ReadValue<Vector2>();
+    }
+
     private void UpdateTargetRotationData(float targetAngle)
     {
         stateMachine.ReusableData.CurrentTargetRotation.y = targetAngle;
         stateMachine.ReusableData.DampedTargetRotationPassedTime.y = 0f;
+    }
+
+    private void UpdateVerticalAmingData(float targetAngle, float min = 0, float max = 90)
+    {
+        stateMachine.ReusableData.CurrentTargetRotation.x = Mathf.Clamp(targetAngle, min, max);
+        stateMachine.ReusableData.DampedTargetRotationPassedTime.x = 0f;
     }
 
     #endregion

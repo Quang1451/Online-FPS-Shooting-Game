@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerStateReusubleData
 {
     public Vector2 MovementInput;
+    public Vector2 LookInput;
     public float MovementSpeedModifier = 1f;
     public float JumpDelayTime;
     
@@ -48,4 +49,5 @@ public class PlayerStateReusubleData
     public PlayerRotationData RotationData { get; set; }
 
     public bool IsCrouching;
+    public bool IsAiming;
 }
