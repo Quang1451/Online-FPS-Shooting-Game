@@ -18,6 +18,13 @@ public class PlayerGroundedState : PlayerMovementState
         stateMachine.ReusableData.JumpDelayTime = Time.time + groundedData.GroundToJumpDelayTime;
     }
 
+    public override void Update()
+    {
+        base.Update();
+        stateMachine.View.Animator.SetFloat(stateMachine.View.MoveX, stateMachine.ReusableData.MovementInput.x, 0.1f, Time.deltaTime);
+        stateMachine.View.Animator.SetFloat(stateMachine.View.MoveY, stateMachine.ReusableData.MovementInput.y, 0.1f, Time.deltaTime);
+    }
+
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();

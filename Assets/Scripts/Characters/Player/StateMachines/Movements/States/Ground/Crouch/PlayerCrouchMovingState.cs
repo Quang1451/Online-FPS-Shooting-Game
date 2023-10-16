@@ -13,7 +13,12 @@ public class PlayerCrouchMovingState : PlayerCrouchingState
     {
         base.Enter();
         stateMachine.ReusableData.MovementSpeedModifier = crouchData.MovementSpeedModifier;
-        stateMachine.View.Animator.CrossFade(stateMachine.View.Run, 0.3f);
+        if (stateMachine.ReusableData.IsAiming)
+        {
+            stateMachine.View.Animator.CrossFade(stateMachine.View.Step, 0.1f);
+            return;
+        }
+        stateMachine.View.Animator.CrossFade(stateMachine.View.Run, 0.1f);
     }
 
     public override void Update()

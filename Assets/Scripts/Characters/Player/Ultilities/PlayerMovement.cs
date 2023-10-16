@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody), typeof(MVCPlayerView))]
@@ -10,6 +12,8 @@ public class PlayerMovement : MonoBehaviour
     public MVCPlayerView View { get; private set; }
     public MovementData Data { get; private set; }
 
+    public Action AimChangeAction;
+    
     private PlayerMovementStateMachine movementStateMachine;
 
     private void Awake()
@@ -23,6 +27,15 @@ public class PlayerMovement : MonoBehaviour
         Data = (MovementData) data;
         movementStateMachine = new PlayerMovementStateMachine(this);
         movementStateMachine.ChangeState(movementStateMachine.StandIdlingState);
+
+        AimChangeAction = OnAimChange;
+
+        InputManager.playerActions.Fire.started += TEst;
+    }
+
+    private void TEst(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        AimChangeAction?.Invoke();
     }
 
     public void DoUpdate()
@@ -50,9 +63,31 @@ public class PlayerMovement : MonoBehaviour
     {
         movementStateMachine?.OnTriggerExit(other);
     }
+    
+    private void OnAimChange()
+    {
+        Data.reusubleData.IsAiming = !Data.reusubleData.IsAiming;
+        View.Animator.SetBool(View.IsAiming, Data.reusubleData.IsAiming);
+        if(Data.reusubleData.IsAiming)
+        {
+            GameManager.Instance.EnableAimCamera();
+            
+            Data.reusubleData.CurrentTargetRotation = new Vector3 (Mathf.DeltaAngle(0,View.MainCameraTransform.eulerAngles.x), View.MainCameraTransform.eulerAngles.y, 0f);
+            Data.reusubleData.DampedTargetRotationPassedTime = Vector3.zero;
+        }
+        else
+        {
+            GameManager.Instance.DisableAimCamera();
+
+            View.CinemachinePOV.m_HorizontalAxis.Value = Data.reusubleData.CurrentTargetRotation.y;
+            View.CinemachinePOV.m_VerticalAxis.Value = Mathf.DeltaAngle(0,Data.reusubleData.CurrentTargetRotation.x);
+        }
+    }
 
     private void OnEnable()
     {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     private void OnDisable()

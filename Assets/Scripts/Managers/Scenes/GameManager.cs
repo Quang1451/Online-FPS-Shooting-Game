@@ -25,6 +25,8 @@ public class GameManager : Singleton<GameManager>
         InputManager.Initialize();
         InputManager.EnableBothActoins();
         _listCharacter = new List<MVCIController>();
+
+        DisableAimCamera();
     }
 
     #region Unity
@@ -80,6 +82,16 @@ public class GameManager : Singleton<GameManager>
     public CinemachinePOV GetCinemachinePOV()
     {
         return VirtualCamera.GetCinemachineComponent<CinemachinePOV>();
+    }
+
+    public void EnableAimCamera()
+    {
+        VirtualCameraAim.enabled = true;
+    }
+
+    public void DisableAimCamera()
+    {
+        VirtualCameraAim.enabled = false;
     }
 
     //Test

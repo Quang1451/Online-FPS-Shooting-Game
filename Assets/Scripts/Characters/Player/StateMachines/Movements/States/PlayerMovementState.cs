@@ -8,18 +8,13 @@ public class PlayerMovementState : IState
 {
     protected PlayerMovementStateMachine stateMachine;
     protected PlayerGroundedData groundedData;
-    private AxisState horizontalAxisState;
-    private AxisState verticalAxisState;
+    
 
     public PlayerMovementState(PlayerMovementStateMachine playerMovementStateMachine)
     {
         stateMachine = playerMovementStateMachine;
         groundedData = stateMachine.PlayerMovement.MovementSO.GroundedData;
-        var cinemachinePOV = GameManager.Instance.GetCinemachinePOV();
-
-        horizontalAxisState = cinemachinePOV.m_HorizontalAxis;
-        verticalAxisState = cinemachinePOV.m_VerticalAxis;
-
+       
         InitializeData();
     }
 
@@ -114,7 +109,7 @@ public class PlayerMovementState : IState
             //Horizontal rotation data
             UpdateTargetRotationData(stateMachine.ReusableData.CurrentTargetRotation.y + horizontalAxis);
             //Vertical rotation data
-            UpdateVerticalAmingData(stateMachine.ReusableData.CurrentTargetRotation.x - verticalAxis, verticalAxisState.m_MinValue, verticalAxisState.m_MaxValue);
+            UpdateVerticalAmingData(stateMachine.ReusableData.CurrentTargetRotation.x - verticalAxis, stateMachine.View.CinemachinePOV.m_VerticalAxis.m_MinValue, stateMachine.View.CinemachinePOV.m_VerticalAxis.m_MaxValue);
         }
         RotateTowardsTargetRotation();
         VerticalAimingRotation();

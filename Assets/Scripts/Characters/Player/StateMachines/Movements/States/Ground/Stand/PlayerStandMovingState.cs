@@ -12,8 +12,15 @@ public class PlayerStandMovingState : PlayerStandingState
     public override void Enter()
     {
         base.Enter();
+
         stateMachine.ReusableData.MovementSpeedModifier = standData.MovementSpeedModifier;
-        stateMachine.View.Animator.CrossFade(stateMachine.View.Run, 0.3f);
+        if (stateMachine.ReusableData.IsAiming)
+        {
+            stateMachine.View.Animator.CrossFade(stateMachine.View.Step, 0.1f);
+            return;
+        }
+        stateMachine.View.Animator.CrossFade(stateMachine.View.Run, 0.1f);
+        
     }
 
     public override void Update()

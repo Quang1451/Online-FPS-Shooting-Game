@@ -1,6 +1,5 @@
 using Cinemachine;
 using DG.Tweening;
-using Sirenix.OdinInspector;
 using System;
 using UnityEngine;
 
@@ -19,6 +18,8 @@ public class MVCPlayerView : BaseView
     public string Jump = "Jump";
     public string Fall = "Fall";
 
+    public string IsAiming = "IsAiming";
+
     [Header("Layers:")]
     public int CrouchLayer = 1;
     [Header("Paramaters:")]
@@ -28,10 +29,14 @@ public class MVCPlayerView : BaseView
     public Transform MainCameraTransform { get; private set; }
     public Rigidbody Rigidbody { get; private set; }
 
+
+    public CinemachinePOV CinemachinePOV { get; private set; }
     private void Awake()
     {
         MainCameraTransform = Camera.main.gameObject.transform;
         GameManager.Instance.SetVirtualCamera(cameraLookAt, cameraLookAt);
+
+        CinemachinePOV = GameManager.Instance.GetCinemachinePOV();
     }
 
     public override void Initialize()
@@ -56,7 +61,6 @@ public class MVCPlayerView : BaseView
     {
         colliderUtility.SwithColiiderData(type);
     }
-
 
     public void Standing()
     {
@@ -88,4 +92,6 @@ public class MVCPlayerView : BaseView
                Animator.SetLayerWeight(layer, start);
            });
     }
+
+    
 }
