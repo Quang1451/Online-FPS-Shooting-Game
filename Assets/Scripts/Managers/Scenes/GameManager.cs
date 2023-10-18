@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Animations;
 
 public enum CharacterType
 {
@@ -18,8 +19,9 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private CinemachineVirtualCamera VirtualCameraAim;
 
     [SerializeField] private Transform AimingTransform;
-
+    [SerializeField] private RotateStatus RotateStatus;
     private List<MVCIController> _listCharacter;
+   
 
     public void Initialize()
     {
@@ -45,6 +47,8 @@ public class GameManager : Singleton<GameManager>
 
     private void FixedUpdate()
     {
+        RotateStatus?.DoFixedUpdate();
+
         foreach (var character in _listCharacter)
         {
             character.FixedUpdate();
@@ -102,13 +106,9 @@ public class GameManager : Singleton<GameManager>
         CreateCharacter(CharacterType.Player);
     }
 
-    public void SetVirtualCamera(Transform follow, Transform lookAt)
+    public void SetCamera(Transform transform)
     {
-        VirtualCamera.Follow = follow;
-        VirtualCamera.LookAt = lookAt;
-
-        VirtualCameraAim.Follow = follow;
-        VirtualCameraAim.LookAt = lookAt;
+        RotateStatus.SetConstraint(transform);
     }
 
     public Transform GetAmingTransform()

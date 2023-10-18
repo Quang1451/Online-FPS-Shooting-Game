@@ -2340,7 +2340,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0f00e5141a86417394bab1823cd7c73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraLookAt: {fileID: 3612570495229182909}
+  cameraTarget: {fileID: 3612570495229182909}
   colliderUtility:
     <DefaultColliderData>k__BackingField:
       <Height>k__BackingField: 1.8

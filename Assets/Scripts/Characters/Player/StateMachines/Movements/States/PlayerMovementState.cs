@@ -34,15 +34,14 @@ public class PlayerMovementState : IState
     public virtual void HandleInput()
     {
         ReadMovementInput();
-        ReadLookInput();
     }
 
     public virtual void PhysicsUpdate()
     {
-        //Rotation when Aiming
         if(stateMachine.ReusableData.IsAiming)
         {
-            AimRotation();
+            UpdateTargetRotationData(stateMachine.View.MainCameraTransform.eulerAngles.y);
+            RotateTowardsTargetRotation();
         }
         Move();
     }
@@ -97,22 +96,6 @@ public class PlayerMovementState : IState
     {
         stateMachine.ReusableData.RotationData = groundedData.BaseRotationData;
         stateMachine.ReusableData.TimeToReachTargetRotation = groundedData.BaseRotationData.TargetRotationReachTime;
-    }
-
-    protected virtual void AimRotation()
-    {
-        if (stateMachine.ReusableData.LookInput != Vector2.zero)
-        {
-            float horizontalAxis = stateMachine.ReusableData.LookInput.x;
-            float verticalAxis = stateMachine.ReusableData.LookInput.y;
-            
-            //Horizontal rotation data
-            UpdateTargetRotationData(stateMachine.ReusableData.CurrentTargetRotation.y + horizontalAxis);
-            //Vertical rotation data
-            UpdateVerticalAmingData(stateMachine.ReusableData.CurrentTargetRotation.x - verticalAxis, stateMachine.View.CinemachinePOV.m_VerticalAxis.m_MinValue, stateMachine.View.CinemachinePOV.m_VerticalAxis.m_MaxValue);
-        }
-        RotateTowardsTargetRotation();
-        VerticalAimingRotation();
     }
 
     protected virtual void Move()
@@ -209,20 +192,6 @@ public class PlayerMovementState : IState
         stateMachine.View.Rigidbody.MoveRotation(targetRotation);
     }
 
-    protected void VerticalAimingRotation()
-    {
-        float currentXAngle = stateMachine.View.cameraLookAt.transform.eulerAngles.x;
-
-        if (currentXAngle == stateMachine.ReusableData.CurrentTargetRotation.x) return;
-
-        float smoothedXAngle = Mathf.SmoothDampAngle(currentXAngle, stateMachine.ReusableData.CurrentTargetRotation.x, ref stateMachine.ReusableData.DampedTargetRotationCurrentVelocity.x, stateMachine.ReusableData.TimeToReachTargetRotation.x - stateMachine.ReusableData.DampedTargetRotationPassedTime.x);
-
-        stateMachine.ReusableData.DampedTargetRotationPassedTime.x += Time.deltaTime;
-
-        Quaternion targetRotation = Quaternion.Euler(smoothedXAngle, 0.0f, 0.0f);
-        stateMachine.View.cameraLookAt.transform.localRotation = targetRotation;
-    }
-
     protected float AddCameraRotationToAngle(float angle)
     {
         angle += stateMachine.View.MainCameraTransform.eulerAngles.y;
@@ -288,23 +257,12 @@ public class PlayerMovementState : IState
         stateMachine.ReusableData.MovementInput = InputManager.playerActions.Move.ReadValue<Vector2>();
     }
 
-    private void ReadLookInput()
-    {
-        stateMachine.ReusableData.LookInput = InputManager.playerActions.Look.ReadValue<Vector2>();
-    }
-
+  
     private void UpdateTargetRotationData(float targetAngle)
     {
         stateMachine.ReusableData.CurrentTargetRotation.y = targetAngle;
         stateMachine.ReusableData.DampedTargetRotationPassedTime.y = 0f;
     }
-
-    private void UpdateVerticalAmingData(float targetAngle, float min = 0, float max = 90)
-    {
-        stateMachine.ReusableData.CurrentTargetRotation.x = Mathf.Clamp(targetAngle, min, max);
-        stateMachine.ReusableData.DampedTargetRotationPassedTime.x = 0f;
-    }
-
     #endregion
 
     #region Callback Methods

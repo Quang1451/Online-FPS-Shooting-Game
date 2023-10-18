@@ -81,8 +81,8 @@ public class PlayerMovement : MonoBehaviour
         {
             GameManager.Instance.DisableAimCamera();
 
-            View.CinemachinePOV.m_HorizontalAxis.Value = Data.reusubleData.CurrentTargetRotation.y;
-            View.CinemachinePOV.m_VerticalAxis.Value = Mathf.DeltaAngle(0,Data.reusubleData.CurrentTargetRotation.x);
+            /*View.CinemachinePOV.m_HorizontalAxis.Value = Data.reusubleData.CurrentTargetRotation.y;
+            View.CinemachinePOV.m_VerticalAxis.Value = Mathf.DeltaAngle(0,Data.reusubleData.CurrentTargetRotation.x);*/
         }
     }
 

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class MVCPlayerView : BaseView
 {
-    public Transform cameraLookAt;
+    public Transform cameraTarget;
     [Header("Collider Settings:")]
     public PlayerCapsuleColliderUtility colliderUtility;
     [Header("Animation Settings:")]
@@ -14,15 +14,9 @@ public class MVCPlayerView : BaseView
     public Transform MainCameraTransform { get; private set; }
     public Rigidbody Rigidbody { get; private set; }
 
-
-    public CinemachinePOV CinemachinePOV { get; private set; }
     private void Awake()
     {
         MainCameraTransform = Camera.main.gameObject.transform;
-        GameManager.Instance.SetVirtualCamera(cameraLookAt, cameraLookAt);
-
-        CinemachinePOV = GameManager.Instance.GetCinemachinePOV();
-
         Rigidbody = GetComponent<Rigidbody>();
     }
 
@@ -30,8 +24,9 @@ public class MVCPlayerView : BaseView
     {
         colliderUtility.Initialize(gameObject);
         colliderUtility.CaculateCapsuleColliderDimesions();
-
         animationUtility.Initialize();
+
+        GameManager.Instance.SetCamera(cameraTarget);
     }
 
     private void OnValidate()
