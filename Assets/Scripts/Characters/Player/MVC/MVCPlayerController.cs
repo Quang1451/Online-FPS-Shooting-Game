@@ -29,8 +29,6 @@ public class MVCPlayerController : BaseController
         inventory.Initialize(new InventoryData{
             reusubleData = model.reusubleData
         });
-
-        inventory.enabled = false;
     }
 
     public override void Update()

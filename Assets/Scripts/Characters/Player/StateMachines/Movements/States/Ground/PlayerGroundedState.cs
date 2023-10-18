@@ -21,8 +21,8 @@ public class PlayerGroundedState : PlayerMovementState
     public override void Update()
     {
         base.Update();
-        stateMachine.View.Animator.SetFloat(stateMachine.View.MoveX, stateMachine.ReusableData.MovementInput.x, 0.1f, Time.deltaTime);
-        stateMachine.View.Animator.SetFloat(stateMachine.View.MoveY, stateMachine.ReusableData.MovementInput.y, 0.1f, Time.deltaTime);
+        stateMachine.View.animationUtility.Animator.SetFloat(stateMachine.View.animationUtility.MoveX, stateMachine.ReusableData.MovementInput.x, 0.1f, Time.deltaTime);
+        stateMachine.View.animationUtility.Animator.SetFloat(stateMachine.View.animationUtility.MoveY, stateMachine.ReusableData.MovementInput.y, 0.1f, Time.deltaTime);
     }
 
     public override void PhysicsUpdate()

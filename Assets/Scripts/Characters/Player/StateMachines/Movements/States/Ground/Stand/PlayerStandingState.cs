@@ -17,7 +17,8 @@ public class PlayerStandingState : PlayerGroundedState
     {
         base.Enter();
         stateMachine.View.Standing();
-        _tween = stateMachine.View.SmoothDampAnimatorLayer(stateMachine.View.CrouchLayer, stateMachine.View.Animator.GetLayerWeight(stateMachine.View.CrouchLayer), 0);
+        _tween = stateMachine.View.animationUtility.SmoothDampAnimatorLayer(stateMachine.View.animationUtility.CrouchLayer,
+            stateMachine.View.animationUtility.Animator.GetLayerWeight(stateMachine.View.animationUtility.CrouchLayer), 0);
     }
 
     public override void Exit()

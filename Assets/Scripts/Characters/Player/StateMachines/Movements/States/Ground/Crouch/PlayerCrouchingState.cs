@@ -15,7 +15,8 @@ public class PlayerCrouchingState : PlayerGroundedState
     {
         base.Enter();
         stateMachine.View.Crouching();
-        _tween = stateMachine.View.SmoothDampAnimatorLayer(stateMachine.View.CrouchLayer, stateMachine.View.Animator.GetLayerWeight(stateMachine.View.CrouchLayer), 1);
+        _tween = stateMachine.View.animationUtility.SmoothDampAnimatorLayer(stateMachine.View.animationUtility.CrouchLayer,
+            stateMachine.View.animationUtility.Animator.GetLayerWeight(stateMachine.View.animationUtility.CrouchLayer), 1);
     }
 
     public override void Exit()

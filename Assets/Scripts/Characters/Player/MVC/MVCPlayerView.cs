@@ -1,30 +1,15 @@
 using Cinemachine;
-using DG.Tweening;
 using System;
 using UnityEngine;
 
 
 public class MVCPlayerView : BaseView
 {
-    [Header("Collider Settings:")]
     public Transform cameraLookAt;
+    [Header("Collider Settings:")]
     public PlayerCapsuleColliderUtility colliderUtility;
     [Header("Animation Settings:")]
-    public Animator Animator;
-    public string Idle = "Idle";
-    public string Run = "Run";
-    public string Step = "Step";
-
-    public string Jump = "Jump";
-    public string Fall = "Fall";
-
-    public string IsAiming = "IsAiming";
-
-    [Header("Layers:")]
-    public int CrouchLayer = 1;
-    [Header("Paramaters:")]
-    public string MoveX = "MoveX";
-    public string MoveY = "MoveY";
+    public PlayerAnimation animationUtility;
 
     public Transform MainCameraTransform { get; private set; }
     public Rigidbody Rigidbody { get; private set; }
@@ -37,13 +22,16 @@ public class MVCPlayerView : BaseView
         GameManager.Instance.SetVirtualCamera(cameraLookAt, cameraLookAt);
 
         CinemachinePOV = GameManager.Instance.GetCinemachinePOV();
+
+        Rigidbody = GetComponent<Rigidbody>();
     }
 
     public override void Initialize()
     {
         colliderUtility.Initialize(gameObject);
         colliderUtility.CaculateCapsuleColliderDimesions();
-        Rigidbody = GetComponent<Rigidbody>();
+
+        animationUtility.Initialize();
     }
 
     private void OnValidate()
@@ -71,27 +59,4 @@ public class MVCPlayerView : BaseView
     {
         ChangCapsuleColliderData(ColliderDataType.Crouch);
     }
-
-    public void SetArm()
-    {
-        /*foreach (MultiAimConstraint aimConstraint in GetComponentsInChildren<MultiAimConstraint>())
-        {
-            var data = aimConstraint.data.sourceObjects;
-            data.SetTransform(0, GameManager.Instance.aimingPos);
-            aimConstraint.data.sourceObjects = data;
-        }
-
-        _rigBuilder.Build();*/
-    }
-
-    public Tween SmoothDampAnimatorLayer(int layer, float start, float end, float duration = 0.1f)
-    {
-        return DOTween.To(() => start, x => start = x, end, duration)
-           .SetEase(Ease.Linear).OnUpdate(() =>
-           {
-               Animator.SetLayerWeight(layer, start);
-           });
-    }
-
-    
 }

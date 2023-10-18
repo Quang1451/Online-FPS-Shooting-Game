@@ -13,7 +13,7 @@ public class PlayerStandIdlingState : PlayerStandingState
     {
         base.Enter();
         stateMachine.ReusableData.MovementSpeedModifier = 0f;
-        stateMachine.View.Animator.CrossFade(stateMachine.View.Idle, 0.3f);
+        stateMachine.View.animationUtility.Animator.CrossFade(stateMachine.View.animationUtility.Idle, 0.3f);
         if (IsMovingHorizontally()) ResetVelocityHorizontally();
     }
 

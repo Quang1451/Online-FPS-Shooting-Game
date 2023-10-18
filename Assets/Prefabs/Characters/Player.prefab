@@ -2046,7 +2046,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_RigLayers:
   - m_Rig: {fileID: 2504117952807030953}
-    m_Active: 0
+    m_Active: 1
   - m_Rig: {fileID: 888482738946823778}
     m_Active: 1
   - m_Rig: {fileID: 1404417412502844302}
@@ -2254,7 +2254,6 @@ GameObject:
   - component: {fileID: 1217539428597134445}
   - component: {fileID: 1061567903413093678}
   - component: {fileID: 3295574789834289296}
-  - component: {fileID: 2388217875076675450}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -2355,15 +2354,27 @@ MonoBehaviour:
       <Height>k__BackingField: 0.8
       <CenterY>k__BackingField: 0.87
       <Radius>k__BackingField: 0.2
-  Animator: {fileID: 7023503356278738655}
-  Idle: Idle
-  Run: Run
-  Step: Step
-  Jump: Jump
-  Fall: Fall
-  CrouchLayer: 1
-  MoveX: MoveX
-  MoveY: MoveY
+  animationUtility:
+    Animator: {fileID: 7023503356278738655}
+    RigBuilder: {fileID: 7553688874660657106}
+    Idle: Idle
+    Run: Run
+    Step: Step
+    Jump: Jump
+    Fall: Fall
+    IsAiming: IsAiming
+    CrouchLayer: 1
+    MoveX: MoveX
+    MoveY: MoveY
+    RigWeaponAiming: {fileID: 888482738946823778}
+    RigWeaponHolding: {fileID: 2504117952807030953}
+    RigHands: {fileID: 1404417412502844302}
+    LeftHandIk: {fileID: 6429082794960863678}
+    RightHandIk: {fileID: 115511769262219231}
+    AimConstraintList:
+    - {fileID: 5319415162606553296}
+    - {fileID: 6240721686444410583}
+    - {fileID: 7603454157597550026}
 --- !u!114 &1061567903413093678
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2391,25 +2402,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultInventory: {fileID: 11400000, guid: 1454534d51bf1bb408c80faac2c3ed60, type: 2}
-  MainGun: {fileID: 0}
-  SubGun: {fileID: 0}
-  Transform: {fileID: 932954283840363483}
---- !u!114 &2388217875076675450
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4439598806633848519}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb7194dc27b9df64c8beca7482ee8e0d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PlayerIndex: -1
-  AutoEnableInputs: 1
-  XYAxis: {fileID: 2958784747682635689, guid: adff332bdabd7ae4f84170548168c395, type: 3}
-  ZAxis: {fileID: 0}
+  Layer:
+    serializedVersion: 2
+    m_Bits: 1024
+  WeaponInventoryTransform: {fileID: 0}
 --- !u!1 &4480424967954676917
 GameObject:
   m_ObjectHideFlags: 0

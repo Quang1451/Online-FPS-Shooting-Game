@@ -15,8 +15,9 @@ public class GameManager : Singleton<GameManager>
 {
     [SerializeField] private AssetReference characterAsset;
     [SerializeField] private CinemachineVirtualCamera VirtualCamera;
-
     [SerializeField] private CinemachineVirtualCamera VirtualCameraAim;
+
+    [SerializeField] private Transform AimingTransform;
 
     private List<MVCIController> _listCharacter;
 
@@ -109,6 +110,11 @@ public class GameManager : Singleton<GameManager>
         VirtualCameraAim.Follow = follow;
         VirtualCameraAim.LookAt = lookAt;
     }
+
+    public Transform GetAmingTransform()
+    {
+        return AimingTransform;
+    }
 }
 
 public static class MVCFactory
@@ -132,7 +138,6 @@ public static class MVCFactory
         {
             case CharacterType.Player:
                 return new MVCPlayerModel();
-
         }
         return null;
     }

@@ -2,29 +2,38 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerInventory : MonoBehaviour
 {
-    [Header("Weapons:")]
+    [Header("WeaponSO:")]
     [SerializeField] private InventorySO DefaultInventory;
-    
-    [SerializeField] private Gun MainGun;
-    [SerializeField] private Gun SubGun;
 
-    [Header("Setting:")]
-    [SerializeField] private Transform Transform;
+    [Header("Pick Up Setting:")]
+    [SerializeField] private LayerMask Layer;
+    [SerializeField] private Transform WeaponInventoryTransform;
+     
+
+    private List<IWeapon> _weaponsList;
+    private IWeapon _weaponActive;
+
+
+    private List<DropItemContainer> _dropItemList;
 
 
     private PlayerStateReusubleData _reusubleData;
 
-    private Gun _gunActive;
-
+    
     public void Initialize(IData data)
     {
         InventoryData inventoryData = (InventoryData)data;
         _reusubleData = inventoryData.reusubleData;
+        _dropItemList = new List<DropItemContainer>();
+        _weaponsList = new List<IWeapon>() { null, null};
     }
 
+
+    #region Unity
     /*private void Awake()
     {
         ItemType gunType = ItemType.SubGun;
@@ -41,113 +50,145 @@ public class PlayerInventory : MonoBehaviour
         
         ActiveGun(gunType);
     }
-*/
+    */
+
     private void OnEnable()
     {
         InputManager.playerActions.Button1.started += OnActiveMainGun;
         InputManager.playerActions.Button2.started += OnActiveSubGun;
+
+        InputManager.playerActions.PickUp.performed += PickUp;
     }
 
-    
     private void OnDisable()
     {
         InputManager.playerActions.Button1.started -= OnActiveMainGun;
         InputManager.playerActions.Button2.started -= OnActiveSubGun;
+
+        InputManager.playerActions.PickUp.performed -= PickUp;
     }
 
-    public void AddGun(IItem item)
+    private void OnTriggerEnter(Collider other)
+    {
+        DropItemContainer container = other.gameObject.GetComponent<DropItemContainer>();
+        if (container == null || !IsPickUpLayer(container.gameObject.layer)) return;
+ 
+        _dropItemList.Add(container);
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        DropItemContainer container = other.gameObject.GetComponent<DropItemContainer>();
+        if (container == null || !IsPickUpLayer(container.gameObject.layer)) return;
+        
+        if (_dropItemList.Contains(container))
+        {
+            _dropItemList.Remove(container);
+        }
+    }
+    #endregion
+
+    #region Main Methods
+    private void PickUpHandle(IItem item)
     {
         if (item == null) return;
-
-        item.SetParent(Transform);
-        SwapGun(item, item.GetItemType());
+        
+        if(item is IWeapon)
+        {
+            AddWeapon((IWeapon) item);
+            return;
+        }
+    }
+    public void AddWeapon(IWeapon weapon)
+    {
+        if (weapon == null) return;
+        weapon.SetParent(WeaponInventoryTransform);
+        CheckAndSwapWeapon(weapon, weapon.GetItemType());
     }
 
-    private void ActiveGun(ItemType type)
+    private void ActiveWeapon(ItemType type)
     {
-        if(type == ItemType.MainGun)
+        /*if(type == ItemType.MainGun)
         {
             MainGun?.gameObject.SetActive(true);
             SubGun?.gameObject.SetActive(false);
-            _gunActive = MainGun;
+            _weaponActive = MainGun;
         }
         else
         {
             MainGun?.gameObject.SetActive(false);
             SubGun?.gameObject.SetActive(true);
-            _gunActive = SubGun;
-        }
+            _weaponActive = SubGun;
+        }*/
 
         /*_animation.animator.runtimeAnimatorController = _gunActive.GetAnimation();*/
     }
 
-    private void SwapGun(IItem newGun, ItemType type)
+    private void CheckAndSwapWeapon(IWeapon newWeapon, ItemType type)
     {
-        IGun oldGun;
+        IWeapon oldWeapon = null;
         switch (type)
         {
             case ItemType.MainGun:
-                oldGun = MainGun;
-                MainGun = (Gun) newGun;
-                ActiveGun(ItemType.MainGun);
+                oldWeapon = _weaponsList[0];
+                _weaponsList[0] = newWeapon;
                 break;
             default:
-                oldGun = SubGun;
-                SubGun = (Gun) newGun;
+                oldWeapon = _weaponsList[1];
+                _weaponsList[1] = newWeapon;
                 break;
         }
 
-        if (oldGun != null)
-        {
-            DropGun(oldGun);
-        }
+        ActiveWeapon(type);
+        DropGun(oldWeapon);
     }
 
-    private void DropGun(IGun gun)
+    private void DropGun(IWeapon weapon)
     {
+        if (weapon == null) return;
         var dropItem = SpawnManager.SpawnDropItem.GetObject();
-        dropItem.SetData((IItem)gun);
+        dropItem.SetData(weapon);
         dropItem.transform.position = transform.position;
     }
 
-    public bool HasGun(ItemType type)
+    private bool ContainsLayer(LayerMask layerMask, int layer)
     {
-        switch (type)
-        {
-            case ItemType.MainGun:
-                return MainGun != null;
-
-            default:
-                return SubGun != null;
-        }
+        return (1 << layer & layerMask) != 0;
     }
 
-    public Gun GetGun(ItemType type)
+    private bool IsPickUpLayer(int layer)
     {
-        switch (type)
-        {
-            case ItemType.MainGun:
-                return MainGun;
-            default:
-                return SubGun;
-        }
+        return ContainsLayer(Layer, layer);
     }
+    #endregion
 
-    //Callback
-    private void OnActiveMainGun(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
+    #region Callback Method
+    private void OnActiveMainGun(InputAction.CallbackContext ctx)
     {
-        if(HasGun(ItemType.MainGun) && _gunActive != MainGun)
+        /*if(HasGun(ItemType.MainGun) && _weaponActive != MainGun)
         {
             ActiveGun(ItemType.MainGun);
-        }
+        }*/
     }
-    private void OnActiveSubGun(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
+
+    private void OnActiveSubGun(InputAction.CallbackContext ctx)
     {
-        if (HasGun(ItemType.SubGun) && _gunActive != SubGun)
+        /*if (HasGun(ItemType.SubGun) && _weaponActive != SubGun)
         {
             ActiveGun(ItemType.SubGun);
-        }
+        }*/
     }
+
+    private void PickUp(InputAction.CallbackContext ctx)
+    {
+        if (_dropItemList.Count < 1) return;
+        DropItemContainer container = _dropItemList[0];
+        PickUpHandle(container.GetItem());
+        _dropItemList.Remove(container);
+
+        SpawnManager.SpawnDropItem.ReleaseObject(container);
+    }
+    #endregion
 }
 
 public class InventoryData : IData

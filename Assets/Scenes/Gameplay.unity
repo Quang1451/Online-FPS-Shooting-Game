@@ -553,6 +553,7 @@ MonoBehaviour:
     m_EditorAssetChanged: 0
   VirtualCamera: {fileID: 1302645996}
   VirtualCameraAim: {fileID: 1022367520}
+  AimingTransform: {fileID: 52717466}
 --- !u!114 &1259554392
 MonoBehaviour:
   m_ObjectHideFlags: 0

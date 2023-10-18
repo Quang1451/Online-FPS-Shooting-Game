@@ -67,7 +67,9 @@ public class PlayerMovement : MonoBehaviour
     private void OnAimChange()
     {
         Data.reusubleData.IsAiming = !Data.reusubleData.IsAiming;
-        View.Animator.SetBool(View.IsAiming, Data.reusubleData.IsAiming);
+        View.animationUtility.Animator.SetBool(View.animationUtility.IsAiming, Data.reusubleData.IsAiming);
+        View.animationUtility.RigWeaponAmingChange(Data.reusubleData.IsAiming);
+        
         if(Data.reusubleData.IsAiming)
         {
             GameManager.Instance.EnableAimCamera();
