@@ -29,13 +29,6 @@ public class PlayerMovement : MonoBehaviour
         movementStateMachine.ChangeState(movementStateMachine.StandIdlingState);
 
         AimChangeAction = OnAimChange;
-
-        InputManager.playerActions.Fire.started += TEst;
-    }
-
-    private void TEst(UnityEngine.InputSystem.InputAction.CallbackContext obj)
-    {
-        AimChangeAction?.Invoke();
     }
 
     public void DoUpdate()

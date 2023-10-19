@@ -9,6 +9,7 @@ public interface IWeapon : IItem
     void Unequip();
     void AddInputAction();
     void RemoveInputAction();
+    AnimatorOverrideController GetWeaponAnimator();
 }
 
 public interface IGun
@@ -21,7 +22,7 @@ public interface IGun
 public interface IItem
 {
     void SetParent(Transform parent);
+    void SetVisible(bool value = true);
     ItemType GetItemType();
-
     Mesh GetMesh();
 }

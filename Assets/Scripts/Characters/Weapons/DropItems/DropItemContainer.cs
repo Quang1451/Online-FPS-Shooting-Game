@@ -19,7 +19,8 @@ public class DropItemContainer : MonoBehaviour
         if (_item == null) return;
         Item = _item;
         _meshCollider.sharedMesh = Item.GetMesh();
-        _item.SetParent(transform);
+        Item.SetParent(transform);
+        Item.SetVisible();
     }
 
     public IItem GetItem()

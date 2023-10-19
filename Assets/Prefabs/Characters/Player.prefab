@@ -2405,7 +2405,7 @@ MonoBehaviour:
   Layer:
     serializedVersion: 2
     m_Bits: 1024
-  WeaponInventoryTransform: {fileID: 0}
+  WeaponInventoryTransform: {fileID: 932954283840363483}
 --- !u!1 &4480424967954676917
 GameObject:
   m_ObjectHideFlags: 0

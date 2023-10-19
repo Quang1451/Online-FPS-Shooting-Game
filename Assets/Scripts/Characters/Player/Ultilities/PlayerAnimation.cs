@@ -41,6 +41,7 @@ public class PlayerAnimation
 
     public void Initialize()
     {
+        RigWeaponAmingChange(false);
         SetArming();
     }
 
@@ -68,7 +69,6 @@ public class PlayerAnimation
             data.SetTransform(0, GameManager.Instance.GetAmingTransform());
             aimConstraint.data.sourceObjects = data;
         }
-
         RigBuilder.Build();
     }
 }

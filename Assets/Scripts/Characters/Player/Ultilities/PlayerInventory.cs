@@ -12,7 +12,8 @@ public class PlayerInventory : MonoBehaviour
     [Header("Pick Up Setting:")]
     [SerializeField] private LayerMask Layer;
     [SerializeField] private Transform WeaponInventoryTransform;
-     
+
+    private MVCPlayerView View;
 
     private List<IWeapon> _weaponsList;
     private IWeapon _weaponActive;
@@ -34,6 +35,10 @@ public class PlayerInventory : MonoBehaviour
 
 
     #region Unity
+    private void Awake()
+    {
+        View = GetComponent<MVCPlayerView>();
+    }
     /*private void Awake()
     {
         ItemType gunType = ItemType.SubGun;
@@ -108,20 +113,18 @@ public class PlayerInventory : MonoBehaviour
 
     private void ActiveWeapon(ItemType type)
     {
-        /*if(type == ItemType.MainGun)
+        _weaponActive?.Unequip();
+        switch (type)
         {
-            MainGun?.gameObject.SetActive(true);
-            SubGun?.gameObject.SetActive(false);
-            _weaponActive = MainGun;
+            case ItemType.MainGun:
+                _weaponActive = _weaponsList[0];
+                break;
+            case ItemType.SubGun:
+                _weaponActive = _weaponsList[1];
+                break;
         }
-        else
-        {
-            MainGun?.gameObject.SetActive(false);
-            SubGun?.gameObject.SetActive(true);
-            _weaponActive = SubGun;
-        }*/
-
-        /*_animation.animator.runtimeAnimatorController = _gunActive.GetAnimation();*/
+        _weaponActive?.Equip();
+        View.animationUtility.Animator.runtimeAnimatorController = _weaponActive.GetWeaponAnimator();
     }
 
     private void CheckAndSwapWeapon(IWeapon newWeapon, ItemType type)
@@ -138,7 +141,6 @@ public class PlayerInventory : MonoBehaviour
                 _weaponsList[1] = newWeapon;
                 break;
         }
-
         ActiveWeapon(type);
         DropGun(oldWeapon);
     }
@@ -165,18 +167,31 @@ public class PlayerInventory : MonoBehaviour
     #region Callback Method
     private void OnActiveMainGun(InputAction.CallbackContext ctx)
     {
-        /*if(HasGun(ItemType.MainGun) && _weaponActive != MainGun)
+        if (HasGun(ItemType.MainGun))
         {
-            ActiveGun(ItemType.MainGun);
-        }*/
+            ActiveWeapon(ItemType.MainGun);
+        }
     }
 
     private void OnActiveSubGun(InputAction.CallbackContext ctx)
     {
-        /*if (HasGun(ItemType.SubGun) && _weaponActive != SubGun)
+        if (HasGun(ItemType.SubGun))
         {
-            ActiveGun(ItemType.SubGun);
-        }*/
+            ActiveWeapon(ItemType.SubGun);
+        }
+    }
+
+    private bool HasGun(ItemType type)
+    {
+        switch (type)
+        {
+            case ItemType.MainGun:
+                return (_weaponsList[0] == null) ? false : true;
+            case ItemType.SubGun:
+                return (_weaponsList[1] == null) ? false : true;
+            default:
+                return false;
+        }
     }
 
     private void PickUp(InputAction.CallbackContext ctx)
