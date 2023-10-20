@@ -33,6 +33,7 @@ public class MVCPlayerController : BaseController
 
     public override void Update()
     {
+        _view.DoUpdate();
         movement?.DoUpdate();
         inventory?.DoUpdate();
     }

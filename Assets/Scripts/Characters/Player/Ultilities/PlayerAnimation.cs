@@ -18,8 +18,6 @@ public class PlayerAnimation
     public string Jump = "Jump";
     public string Fall = "Fall";
 
-
-
     [Header("Layers:")]
     public int CrouchLayer = 1;
 
@@ -48,8 +46,12 @@ public class PlayerAnimation
 
     public void Initialize()
     {
-        RigWeaponAmingChange(false);
         SetArming();
+    }
+    
+    public void DoUpdate()
+    {
+        RigWeaponAmingChange(Animator.GetBool(IsAiming));
     }
 
     public Tween SmoothDampAnimatorLayer(int layer, float start, float end, float duration = 0.1f)
@@ -63,8 +65,8 @@ public class PlayerAnimation
 
     public void RigWeaponAmingChange(bool value)
     {
-        RigWeaponAiming.weight = value ? 1 : 0;
-        RigWeaponHolding.weight = value ? 0 : 1;
+        RigWeaponAiming.weight += Time.deltaTime *  (value ? 1 : -1);
+        RigWeaponHolding.weight += Time.deltaTime * (!value ? 1 : -1);
     }
 
     public void SetArming()

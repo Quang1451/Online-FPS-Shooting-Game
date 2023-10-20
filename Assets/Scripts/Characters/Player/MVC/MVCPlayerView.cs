@@ -45,6 +45,12 @@ public class MVCPlayerView : BaseView
         action?.Invoke();
     }
 
+    public override void DoUpdate()
+    {
+        animationUtility?.DoUpdate();
+    }
+
+
     public void ChangCapsuleColliderData(ColliderDataType type)
     {
         colliderUtility.SwithColiiderData(type);

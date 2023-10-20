@@ -23,8 +23,7 @@ public class Gun : BaseWeapon, IGun
     public virtual void Reload()
     {
         if (_isRealoading) return;
-        _inventory.View.animationUtility.RigWeaponAmingChange(false);
-
+        _inventory.View.animationUtility.Animator.SetBool(_inventory.View.animationUtility.IsAiming, false);
         _isRealoading = true;
         if (_bullet == 0)
         {
@@ -133,9 +132,10 @@ public class Gun : BaseWeapon, IGun
 
     public void OnReloadFinish()
     {
+        if (_isAiming) _inventory.View.animationUtility.Animator.SetBool(_inventory.View.animationUtility.IsAiming, true);
+
         _bullet = _gunSO.Magazine;
         _isRealoading = false;
-        if(_isAiming) _inventory.View.animationUtility.RigWeaponAmingChange(true);
     }
     #endregion
 }

@@ -68,7 +68,6 @@ public class PlayerMovement : MonoBehaviour
     {
         ReusubleData.IsAiming = value;
         View.animationUtility.Animator.SetBool(View.animationUtility.IsAiming, value);
-        View.animationUtility.RigWeaponAmingChange(value);
     }
 }
 

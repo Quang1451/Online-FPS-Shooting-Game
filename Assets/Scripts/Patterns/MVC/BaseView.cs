@@ -13,4 +13,8 @@ public class BaseView : MonoBehaviour, MVCIView
     public virtual void SpawnModel(Action action)
     {
     }
+
+    public virtual void DoUpdate()
+    {
+    }
 }

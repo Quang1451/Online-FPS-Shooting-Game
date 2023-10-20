@@ -8,6 +8,7 @@ public interface MVCIView
 {
     void Initialize();
     void SpawnModel( Action onComplete);
+    void DoUpdate();
 }
 
 public interface MVCIController
