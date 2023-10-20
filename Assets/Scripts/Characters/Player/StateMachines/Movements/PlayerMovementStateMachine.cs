@@ -23,7 +23,7 @@ public class PlayerMovementStateMachine : StateMachine
     {
         PlayerMovement = playerMovement;
         View = playerMovement.View;
-        ReusableData = PlayerMovement.Data.reusubleData;
+        ReusableData = PlayerMovement.ReusubleData;
 
         StandIdlingState = new PlayerStandIdlingState(this);
         StandMovingState = new PlayerStandMovingState(this);

@@ -37,7 +37,7 @@ public class SpawnManager : MonoBehaviour
         DropItemContainer dropItem = SpawnDropItem.GetObject();
 
         Gun gun = GunPoolDictionary[gunName].GetObject();
-
+        gun.Initiazlie();
         dropItem.SetData(gun);
     }
 

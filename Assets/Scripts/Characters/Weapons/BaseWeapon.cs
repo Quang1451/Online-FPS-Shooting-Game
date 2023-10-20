@@ -5,19 +5,27 @@ using UnityEngine;
 public class BaseWeapon : MonoBehaviour, IWeapon
 {
     [SerializeField] protected WeaponSO WeaponSO;
+    
+    [Header("Target Rigging:")]
+    [SerializeField] private Transform LeftHolding;
+    [SerializeField] private Transform RightHolding;
 
+    protected PlayerInventory _inventory;
     public virtual void Initiazlie()
     {
     }
 
-    public virtual void Equip()
+    public virtual void Equip(IData data)
     {
+        _inventory = ((WeaponData) data).inventory;
+        _inventory.View.animationUtility.SetWeaponHandTarget(LeftHolding, RightHolding);
         AddInputAction();
         SetVisible();
     }
 
     public virtual void Unequip()
     {
+        _inventory = null;
         RemoveInputAction();
         SetVisible(false);
     }
@@ -27,6 +35,10 @@ public class BaseWeapon : MonoBehaviour, IWeapon
     }
 
     public virtual void RemoveInputAction()
+    {
+    }
+
+    public virtual void DoUpdate()
     {
     }
 
@@ -57,4 +69,11 @@ public class BaseWeapon : MonoBehaviour, IWeapon
     {
         gameObject.SetActive(value);
     }
+
+   
+}
+
+public class WeaponData : IData
+{
+    public PlayerInventory inventory;
 }

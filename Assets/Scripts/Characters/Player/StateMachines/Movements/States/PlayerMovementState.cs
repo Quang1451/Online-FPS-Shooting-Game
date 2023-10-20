@@ -121,12 +121,12 @@ public class PlayerMovementState : IState
 
         Vector3 currentPlayerHorizontalVelocity = GetPlayerHorizontalVelocity();
 
-        stateMachine.View.Rigidbody.AddForce(targetRotationDirection * movementSpeed - currentPlayerHorizontalVelocity, ForceMode.VelocityChange);
+        stateMachine.PlayerMovement.Rigidbody.AddForce(targetRotationDirection * movementSpeed - currentPlayerHorizontalVelocity, ForceMode.VelocityChange);
     }
 
     protected Vector3 GetPlayerVerticalVelocity()
     {
-        Vector3 playerVerticalVelocity = stateMachine.View.Rigidbody.velocity;
+        Vector3 playerVerticalVelocity = stateMachine.PlayerMovement.Rigidbody.velocity;
         playerVerticalVelocity.x = 0f;
         playerVerticalVelocity.z = 0f;
         return playerVerticalVelocity;
@@ -134,7 +134,7 @@ public class PlayerMovementState : IState
 
     protected Vector3 GetPlayerHorizontalVelocity()
     {
-        Vector3 playerHorizontalVelocity = stateMachine.View.Rigidbody.velocity;
+        Vector3 playerHorizontalVelocity = stateMachine.PlayerMovement.Rigidbody.velocity;
         playerHorizontalVelocity.y = 0f;
         return playerHorizontalVelocity;
     }
@@ -189,7 +189,7 @@ public class PlayerMovementState : IState
         stateMachine.ReusableData.DampedTargetRotationPassedTime.y += Time.deltaTime;
 
         Quaternion targetRotation = Quaternion.Euler(0.0f, smoothedYAngle, 0.0f);
-        stateMachine.View.Rigidbody.MoveRotation(targetRotation);
+        stateMachine.PlayerMovement.Rigidbody.MoveRotation(targetRotation);
     }
 
     protected float AddCameraRotationToAngle(float angle)
@@ -233,12 +233,12 @@ public class PlayerMovementState : IState
 
     protected void ResetVelocity()
     {
-        stateMachine.View.Rigidbody.velocity = Vector3.zero;
+        stateMachine.PlayerMovement.Rigidbody.velocity = Vector3.zero;
     }
 
     protected void ResetVelocityHorizontally()
     {
-        stateMachine.View.Rigidbody.velocity = new Vector3(0f, stateMachine.View.Rigidbody.velocity.y, 0f);
+        stateMachine.PlayerMovement.Rigidbody.velocity = new Vector3(0f, stateMachine.PlayerMovement.Rigidbody.velocity.y, 0f);
     }
 
     protected bool IsMovingHorizontally(float minimumMagnitude = 0.1f)

@@ -17,3 +17,7 @@ MonoBehaviour:
   MaxDamage: 100
   MinDamage: 20.5
   Recoild: []
+  DelayShot: 0.2
+  CanContinuousShot: 1
+  CycleReload: 0
+  Magazine: 10

@@ -8,29 +8,26 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [field: SerializeField] public PlayerMovementSO MovementSO { get; private set; }
-    public Rigidbody Rigidbody { get; private set; }
     public MVCPlayerView View { get; private set; }
-    public MovementData Data { get; private set; }
+    public PlayerStateReusubleData ReusubleData { get; private set; }
+    public Rigidbody Rigidbody { get; private set; }
 
-    public Action AimChangeAction;
-    
     private PlayerMovementStateMachine movementStateMachine;
+
+    public void Initialize(IData data = null)
+    {
+        ReusubleData = ((MovementData)data).reusubleData;
+
+        movementStateMachine = new PlayerMovementStateMachine(this);
+        movementStateMachine.ChangeState(movementStateMachine.StandIdlingState);
+    }
 
     private void Awake()
     {
-        Rigidbody = GetComponent<Rigidbody>();
         View = GetComponent<MVCPlayerView>();
+        Rigidbody = GetComponent<Rigidbody>();
     }
     
-    public void Initialize(IData data = null)
-    {
-        Data = (MovementData) data;
-        movementStateMachine = new PlayerMovementStateMachine(this);
-        movementStateMachine.ChangeState(movementStateMachine.StandIdlingState);
-
-        AimChangeAction = OnAimChange;
-    }
-
     public void DoUpdate()
     {
         movementStateMachine?.Update();
@@ -56,37 +53,22 @@ public class PlayerMovement : MonoBehaviour
     {
         movementStateMachine?.OnTriggerExit(other);
     }
-    
-    private void OnAimChange()
-    {
-        Data.reusubleData.IsAiming = !Data.reusubleData.IsAiming;
-        View.animationUtility.Animator.SetBool(View.animationUtility.IsAiming, Data.reusubleData.IsAiming);
-        View.animationUtility.RigWeaponAmingChange(Data.reusubleData.IsAiming);
-        
-        if(Data.reusubleData.IsAiming)
-        {
-            GameManager.Instance.EnableAimCamera();
-            
-            Data.reusubleData.CurrentTargetRotation = new Vector3 (Mathf.DeltaAngle(0,View.MainCameraTransform.eulerAngles.x), View.MainCameraTransform.eulerAngles.y, 0f);
-            Data.reusubleData.DampedTargetRotationPassedTime = Vector3.zero;
-        }
-        else
-        {
-            GameManager.Instance.DisableAimCamera();
-
-            /*View.CinemachinePOV.m_HorizontalAxis.Value = Data.reusubleData.CurrentTargetRotation.y;
-            View.CinemachinePOV.m_VerticalAxis.Value = Mathf.DeltaAngle(0,Data.reusubleData.CurrentTargetRotation.x);*/
-        }
-    }
 
     private void OnEnable()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        View.ActiveAiming += SetReusubleAimingData;
     }
 
     private void OnDisable()
-    {   
+    {
+        View.ActiveAiming -= SetReusubleAimingData;
+    }
+
+    private void SetReusubleAimingData(bool value)
+    {
+        ReusubleData.IsAiming = value;
+        View.animationUtility.Animator.SetBool(View.animationUtility.IsAiming, value);
+        View.animationUtility.RigWeaponAmingChange(value);
     }
 }
 

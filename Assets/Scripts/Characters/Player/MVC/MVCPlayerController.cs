@@ -34,6 +34,7 @@ public class MVCPlayerController : BaseController
     public override void Update()
     {
         movement?.DoUpdate();
+        inventory?.DoUpdate();
     }
 
     public override void FixedUpdate()

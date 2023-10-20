@@ -12,13 +12,8 @@ public class MVCPlayerView : BaseView
     public PlayerAnimation animationUtility;
 
     public Transform MainCameraTransform { get; private set; }
-    public Rigidbody Rigidbody { get; private set; }
 
-    private void Awake()
-    {
-        MainCameraTransform = Camera.main.gameObject.transform;
-        Rigidbody = GetComponent<Rigidbody>();
-    }
+    public Action<bool> ActiveAiming;
 
     public override void Initialize()
     {
@@ -28,7 +23,17 @@ public class MVCPlayerView : BaseView
 
         GameManager.Instance.SetCamera(cameraTarget);
     }
+    private void Awake()
+    {
+        MainCameraTransform = Camera.main.gameObject.transform;
+        
+        ActiveAiming += ChangeToAim;
+    }
 
+    private void OnDestroy()
+    {
+        ActiveAiming -= ChangeToAim;
+    }
     private void OnValidate()
     {
         colliderUtility.Initialize(gameObject);
@@ -53,5 +58,17 @@ public class MVCPlayerView : BaseView
     public void Crouching()
     {
         ChangCapsuleColliderData(ColliderDataType.Crouch);
+    }
+
+    private void ChangeToAim(bool value)
+    {
+        if (value)
+        {
+            GameManager.Instance.EnableAimCamera();
+        }
+        else
+        {
+            GameManager.Instance.DisableAimCamera();
+        }
     }
 }

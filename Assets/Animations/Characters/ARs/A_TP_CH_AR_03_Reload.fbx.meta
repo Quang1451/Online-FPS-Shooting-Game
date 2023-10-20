@@ -62,19 +62,12 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.21187036
-        functionName: OnDropMagazine
+      - time: 0.83230084
+        functionName: OnReloadFinish
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
-        messageOptions: 0
-      - time: 0.30269435
-        functionName: OnDropMagazine
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 1
         messageOptions: 0
       transformMask: []
       maskType: 3
@@ -605,7 +598,8 @@ ModelImporter:
     - name: lowerarm_twist_01_l
       parentName: lowerarm_l
       position: {x: -0.13999963, y: 0.00000012665987, z: -0.00000007390976}
-      rotation: {x: 0.00000020116563, y: -0.00000016391273, z: -0.00000006984918, w: 1}
+      rotation: {x: 0.00000020116563, y: -0.00000016391273, z: -0.00000006984918,
+        w: 1}
       scale: {x: 1.0000001, y: 1.0000004, z: 1.0000002}
     - name: hand_l
       parentName: lowerarm_l
@@ -690,7 +684,8 @@ ModelImporter:
     - name: upperarm_twist_01_l
       parentName: upperarm_l
       position: {x: -0.005, y: -0.00000021934508, z: -0.000000095367426}
-      rotation: {x: 0.00000008940694, y: -0.000000029802312, z: 0.00000011920925, w: 1}
+      rotation: {x: 0.00000008940694, y: -0.000000029802312, z: 0.00000011920925,
+        w: 1}
       scale: {x: 1, y: 0.9999998, z: 1}
     - name: clavicle_r
       parentName: spine_03
@@ -900,7 +895,8 @@ ModelImporter:
     - name: ik_hand_r
       parentName: ik_hand_gun
       position: {x: 0.039626464, y: 0.1405671, z: -0.0013583967}
-      rotation: {x: 0.00000011920929, y: -0.000000052154064, z: -0.000000029802322, w: 1}
+      rotation: {x: 0.00000011920929, y: -0.000000052154064, z: -0.000000029802322,
+        w: 1}
       scale: {x: 1, y: 1.0000006, z: 1.0000001}
     armTwist: 0.5
     foreArmTwist: 0.5

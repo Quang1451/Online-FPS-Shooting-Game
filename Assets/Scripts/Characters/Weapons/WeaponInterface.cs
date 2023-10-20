@@ -5,10 +5,13 @@ using UnityEngine;
 public interface IWeapon : IItem
 {
     void Initiazlie();
-    void Equip();
+    void Equip(IData data);
     void Unequip();
     void AddInputAction();
     void RemoveInputAction();
+
+    void DoUpdate();
+    
     AnimatorOverrideController GetWeaponAnimator();
 }
 
@@ -16,7 +19,8 @@ public interface IGun
 {
     void Shoot();
     void Reload();
-    void Aim();
+    void Aim(bool value);
+    void OnReloadFinish();
 }
 
 public interface IItem

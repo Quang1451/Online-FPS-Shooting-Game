@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(MVCPlayerView))]
 public class PlayerInventory : MonoBehaviour
 {
     [Header("WeaponSO:")]
@@ -13,18 +14,14 @@ public class PlayerInventory : MonoBehaviour
     [SerializeField] private LayerMask Layer;
     [SerializeField] private Transform WeaponInventoryTransform;
 
-    private MVCPlayerView View;
-
+    public MVCPlayerView View { get; private set; }
+    
     private List<IWeapon> _weaponsList;
     private IWeapon _weaponActive;
 
-
     private List<DropItemContainer> _dropItemList;
-
-
     private PlayerStateReusubleData _reusubleData;
 
-    
     public void Initialize(IData data)
     {
         InventoryData inventoryData = (InventoryData)data;
@@ -56,6 +53,11 @@ public class PlayerInventory : MonoBehaviour
         ActiveGun(gunType);
     }
     */
+
+    public void DoUpdate()
+    {
+        _weaponActive?.DoUpdate();
+    }
 
     private void OnEnable()
     {
@@ -123,7 +125,7 @@ public class PlayerInventory : MonoBehaviour
                 _weaponActive = _weaponsList[1];
                 break;
         }
-        _weaponActive?.Equip();
+        _weaponActive?.Equip(new WeaponData { inventory = this});
         View.animationUtility.Animator.runtimeAnimatorController = _weaponActive.GetWeaponAnimator();
     }
 
@@ -202,6 +204,11 @@ public class PlayerInventory : MonoBehaviour
         _dropItemList.Remove(container);
 
         SpawnManager.SpawnDropItem.ReleaseObject(container);
+    }
+
+    public void OnReloadFinish()
+    {
+        ((IGun)_weaponActive)?.OnReloadFinish();
     }
     #endregion
 }

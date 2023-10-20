@@ -18,7 +18,7 @@ public class PlayerAnimation
     public string Jump = "Jump";
     public string Fall = "Fall";
 
-    public string IsAiming = "IsAiming";
+
 
     [Header("Layers:")]
     public int CrouchLayer = 1;
@@ -26,6 +26,13 @@ public class PlayerAnimation
     [Header("Paramaters:")]
     public string MoveX = "MoveX";
     public string MoveY = "MoveY";
+    public string IsAiming = "IsAiming";
+
+    public string ShootTrigger = "ShootTrigger";
+
+    public string ReloadLeftTrigger = "ReloadLeftTrigger";
+    public string ReloadEmptyTrigger = "ReloadEmptyTrigger";
+    public string CycleReloadTrigger = "CycleReloadTrigger";
 
     [Header("Rig Layers:")]
     public Rig RigWeaponAiming;
@@ -45,7 +52,6 @@ public class PlayerAnimation
         SetArming();
     }
 
-
     public Tween SmoothDampAnimatorLayer(int layer, float start, float end, float duration = 0.1f)
     {
         return DOTween.To(() => start, x => start = x, end, duration)
@@ -55,10 +61,10 @@ public class PlayerAnimation
            });
     }
 
-    public void RigWeaponAmingChange(bool IsAiming)
+    public void RigWeaponAmingChange(bool value)
     {
-        RigWeaponAiming.weight = IsAiming ? 1 : 0;
-        RigWeaponHolding.weight = IsAiming ? 0 : 1;
+        RigWeaponAiming.weight = value ? 1 : 0;
+        RigWeaponHolding.weight = value ? 0 : 1;
     }
 
     public void SetArming()
@@ -69,6 +75,13 @@ public class PlayerAnimation
             data.SetTransform(0, GameManager.Instance.GetAmingTransform());
             aimConstraint.data.sourceObjects = data;
         }
+        RigBuilder.Build();
+    }
+
+    public void SetWeaponHandTarget(Transform handLeft, Transform handRight)
+    {
+        LeftHandIk.data.target = handLeft;
+        RightHandIk.data.target = handRight;
         RigBuilder.Build();
     }
 }

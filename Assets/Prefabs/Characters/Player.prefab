@@ -634,7 +634,7 @@ MonoBehaviour:
       m_Item7:
         transform: {fileID: 0}
         weight: 0
-    m_Offset: {x: 0, y: 0, z: 0}
+    m_Offset: {x: 0.05, y: 0.03, z: 0}
     m_ConstrainedAxes:
       x: 1
       y: 1
@@ -693,7 +693,7 @@ MonoBehaviour:
     m_ConstrainedAxes:
       x: 1
       y: 1
-      z: 0
+      z: 1
 --- !u!114 &6359279526317938653
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -965,6 +965,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4908891336519747582}
   - component: {fileID: 2908528865571650145}
+  - component: {fileID: 9031356799064350059}
   - component: {fileID: 7247435269158086599}
   m_Layer: 0
   m_Name: Weapon Pose
@@ -1030,6 +1031,53 @@ MonoBehaviour:
         transform: {fileID: 0}
         weight: 0
     m_Offset: {x: 0, y: 0, z: 0}
+    m_ConstrainedAxes:
+      x: 1
+      y: 1
+      z: 1
+    m_MaintainOffset: 0
+--- !u!114 &9031356799064350059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2184662896934183924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdb90b913935e644baaa86c076d788e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Weight: 1
+  m_Data:
+    m_ConstrainedObject: {fileID: 4908891336519747582}
+    m_SourceObjects:
+      m_Length: 1
+      m_Item0:
+        transform: {fileID: 1905819951031917120}
+        weight: 1
+      m_Item1:
+        transform: {fileID: 0}
+        weight: 0
+      m_Item2:
+        transform: {fileID: 0}
+        weight: 0
+      m_Item3:
+        transform: {fileID: 0}
+        weight: 0
+      m_Item4:
+        transform: {fileID: 0}
+        weight: 0
+      m_Item5:
+        transform: {fileID: 0}
+        weight: 0
+      m_Item6:
+        transform: {fileID: 0}
+        weight: 0
+      m_Item7:
+        transform: {fileID: 0}
+        weight: 0
+    m_Offset: {x: -160.1, y: -75, z: 90}
     m_ConstrainedAxes:
       x: 1
       y: 1
@@ -2362,10 +2410,14 @@ MonoBehaviour:
     Step: Step
     Jump: Jump
     Fall: Fall
-    IsAiming: IsAiming
     CrouchLayer: 1
     MoveX: MoveX
     MoveY: MoveY
+    IsAiming: IsAiming
+    ShootTrigger: ShootTrigger
+    ReloadLeftTrigger: ReloadLeftTrigger
+    ReloadEmptyTrigger: ReloadEmptyTrigger
+    CycleReloadTrigger: CycleReloadTrigger
     RigWeaponAiming: {fileID: 888482738946823778}
     RigWeaponHolding: {fileID: 2504117952807030953}
     RigHands: {fileID: 1404417412502844302}
